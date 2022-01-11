@@ -1,0 +1,42 @@
+{
+  "name": "rest-project",
+  "version": "0.0.1",
+  "description": "node rest project",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo not implemented",
+    "build": "tsc",
+    "start": "node .",
+    "dev": "nodemon --exec 'npm run build && npm run start' --ext 'ts,json'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cvbenur/node-rest-project.git"
+  },
+  "keywords": [
+    "node",
+    "rest",
+    "API"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cvbenur/node-rest-project/issues"
+  },
+  "homepage": "https://github.com/cvbenur/node-rest-project#readme",
+  "dependencies": {
+    "dotenv": "^11.0.0",
+    "fastify": "^3.25.3",
+    "fastify-plugin": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.8",
+    "@types/pino": "^7.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^8.6.0",
+    "nodemon": "^2.0.15",
+    "pino-pretty": "^7.3.0",
+    "typescript": "^4.5.4"
+  }
+}
