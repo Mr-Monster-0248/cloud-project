@@ -1,5 +1,6 @@
 import { fastify } from 'fastify';
 import { config } from 'dotenv';
+import { checkLogPath } from './utils/checkLogPath';
 
 config();
 
@@ -10,7 +11,7 @@ const environment = process.env.ENVIRONMENT || 'development';
 const server = fastify({
   logger: {
     level: 'info',
-    file: environment === 'development' ? undefined : './logs/server.log',
+    file: checkLogPath(),
     prettyPrint:
       environment === 'development'
         ? {
@@ -26,10 +27,11 @@ const server = fastify({
 const start = async () => {
   try {
     await server.listen(Port);
-    console.log('Server started successfully');
+    server.log.info('Server started successfully');
   } catch (err) {
     server.log.error(err);
     process.exit(1);
   }
 };
+
 start();
