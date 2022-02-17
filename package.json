@@ -27,7 +27,8 @@
   "dependencies": {
     "dotenv": "^11.0.0",
     "fastify": "^3.25.3",
-    "fastify-plugin": "^3.0.0"
+    "fastify-plugin": "^3.0.0",
+    "fastify-swagger": "^4.15.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",
