@@ -1,10 +1,12 @@
 import { fastify } from 'fastify';
 import fastifySwagger from 'fastify-swagger';
 import { serverConfig, swaggerConfig } from './configs';
+import { ResaurantRoute } from './routes/restaurants';
 
 const server = fastify(serverConfig);
 
 server.register(fastifySwagger, swaggerConfig);
+server.register(ResaurantRoute);
 
 const start = async () => {
   try {

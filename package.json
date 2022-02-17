@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/cvbenur/node-rest-project#readme",
   "dependencies": {
+    "@sinclair/typebox": "^0.23.4",
     "dotenv": "^11.0.0",
     "fastify": "^3.25.3",
     "fastify-plugin": "^3.0.0",
