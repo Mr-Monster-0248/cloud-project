@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  ps-database:
+    image: postgres
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-data:/var/lib/posgresql/data
+    environment:
+      POSTGRES_PASSWORD: db_password
+      POSTGRES_USER: db_user
+      POSTGRES_DB: node_app_db
+
+volumes:
+  db-data:
