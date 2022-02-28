@@ -6,9 +6,9 @@
 
 | Method | Sub-route | Description                          | Auth level required | Done |
 | ------ | --------- | ------------------------------------ | :-----------------: | :--: |
-| GET    | `/`       | Gets all restaurants                 |        None         |      |
+| GET    | `/`       | Gets all restaurants                 |        None         |  ✔   |
 | POST   | `/`       | Adds a new restaurant                |      Logged in      |      |
-| GET    | `/:id`    | Gets the restaurant with id `:id`    |        None         |      |
+| GET    | `/:id`    | Gets the restaurant with id `:id`    |        None         |  ✔   |
 | PUT    | `/:id`    | Updates the restaurant with id `:id` |   Owner of `:id`    |      |
 | DELETE | `/:id`    | Deletes the restaurant with id `:id` |   Owner of `:id`    |      |
 

@@ -1,23 +1,22 @@
 import { RouteHandler } from 'fastify';
-import { Restaurant } from '../models/Restaurant';
-
-// data for dev purposes
-const resto: Restaurant[] = [
-  { name: 'resto 1', description: 'c cool 1' },
-  { name: 'resto 2', description: 'c cool 2' },
-  { name: 'resto 3', description: 'c cool 3' },
-];
+import { Restaurant } from '../entities/Restaurant';
+import { getConnection } from "typeorm";
 
 // GET /restaurants
-const getRestaurants: RouteHandler = (req, res) => {
-  res.code(200).send(resto);
+const getRestaurants: RouteHandler = async (req, res) => {
+  const restaurantRepository = getConnection().getRepository(Restaurant); // MUST BE DEFINED HERE OR IT CRASHES
+  const restos = await restaurantRepository.find();
+
+  res.code(200).send(restos);
 };
 
 // GET /restaurants/:id
-const getRestaurant: RouteHandler<{ Params: { id: number } }> = (req, res) => {
-  const r = resto[req.params.id];
-  if (r) {
-    res.code(200).send(r);
+const getRestaurant: RouteHandler<{ Params: { id: number } }> = async (req, res) => {
+  const restaurantRepository = getConnection().getRepository(Restaurant); // MUST BE DEFINED HERE OR IT CRASHES
+  const resto = await restaurantRepository.findOne(req.params.id);
+
+  if (resto) {
+    res.code(200).send(resto);
   } else {
     res.code(404).send(new Error('Not Found')); // TODO: build custom Error
   }
