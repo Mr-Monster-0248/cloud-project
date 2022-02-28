@@ -4,6 +4,7 @@ import { ErrorResponse } from '../models/ErrorResponse';
 import { Restaurant } from '../models/Restaurant';
 
 export const ResaurantRoute: FastifyPluginAsync = async (server) => {
+  // GET /restaurants
   server.get(
     '/restaurants',
     {
@@ -22,6 +23,7 @@ export const ResaurantRoute: FastifyPluginAsync = async (server) => {
     getRestaurants
   );
 
+  // GET /restaurant/:id
   server.get<{ Params: { id: number } }>(
     '/restaurant/:id',
     {

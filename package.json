@@ -7,7 +7,7 @@
     "test": "echo not implemented",
     "build": "tsc",
     "start": "node .",
-    "dev": "nodemon --exec 'npm run build && npm run start' --ext 'ts,json'",
+    "dev": "nodemon --exec 'tsc && node .' --ext 'ts,json'",
     "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
   },
   "repository": {

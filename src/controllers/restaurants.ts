@@ -8,10 +8,12 @@ const resto: Restaurant[] = [
   { name: 'resto 3', description: 'c cool 3' },
 ];
 
+// GET /restaurants
 const getRestaurants: RouteHandler = (req, res) => {
   res.code(200).send(resto);
 };
 
+// GET /restaurant/:id
 const getRestaurant: RouteHandler<{ Params: { id: number } }> = (req, res) => {
   const r = resto[req.params.id];
   if (r) {
