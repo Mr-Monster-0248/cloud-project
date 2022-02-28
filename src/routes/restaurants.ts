@@ -23,9 +23,9 @@ export const ResaurantRoute: FastifyPluginAsync = async (server) => {
     getRestaurants
   );
 
-  // GET /restaurant/:id
+  // GET /restaurants/:id
   server.get<{ Params: { id: number } }>(
-    '/restaurant/:id',
+    '/restaurants/:id',
     {
       schema: {
         description: 'List one restaurants',

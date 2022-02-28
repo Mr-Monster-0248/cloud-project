@@ -1,6 +1,7 @@
 import { fastify } from 'fastify';
-import 'reflect-metadata';
 import fastifySwagger from 'fastify-swagger';
+import { createConnection } from 'typeorm';
+import 'reflect-metadata';
 import { serverConfig, swaggerConfig } from './configs';
 import { ResaurantRoute } from './routes/restaurants';
 
@@ -9,8 +10,13 @@ const server = fastify(serverConfig);
 server.register(fastifySwagger, swaggerConfig);
 server.register(ResaurantRoute);
 
+
 const start = async () => {
   try {
+    // Setting up DB connection
+    await createConnection();
+    server.log.info('Database connected');
+
     await server.listen(process.env.PORT || 7000);
     server.log.info('Server started successfully');
   } catch (err) {

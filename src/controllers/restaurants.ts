@@ -13,7 +13,7 @@ const getRestaurants: RouteHandler = (req, res) => {
   res.code(200).send(resto);
 };
 
-// GET /restaurant/:id
+// GET /restaurants/:id
 const getRestaurant: RouteHandler<{ Params: { id: number } }> = (req, res) => {
   const r = resto[req.params.id];
   if (r) {
