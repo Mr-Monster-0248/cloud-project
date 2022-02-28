@@ -1,4 +1,5 @@
 import { fastify } from 'fastify';
+import 'reflect-metadata';
 import fastifySwagger from 'fastify-swagger';
 import { serverConfig, swaggerConfig } from './configs';
 import { ResaurantRoute } from './routes/restaurants';

@@ -1,0 +1,28 @@
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Check,
+} from 'typeorm';
+import { User } from './User';
+import { Restaurant } from './Restaurant';
+
+@Entity()
+@Check(`grade BETWEEN 0 AND 5`)
+export class Review {
+  @PrimaryGeneratedColumn({ name: 'review_id' })
+  reviewId: number;
+
+  @ManyToOne(() => User, (user) => user.reviews)
+  reviewer: User;
+
+  @ManyToOne(() => Restaurant, (restaurant) => restaurant.reviews)
+  restaurant: Restaurant;
+
+  @Column({ nullable: true })
+  content: string;
+
+  @Column()
+  grade: number;
+}
