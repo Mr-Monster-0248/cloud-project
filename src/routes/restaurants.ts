@@ -3,7 +3,7 @@ import { getRestaurant, getRestaurants } from '../controllers/restaurants';
 import { ErrorResponse } from '../models/ErrorResponse';
 import { Restaurant } from '../models/Restaurant';
 
-export const ResaurantRoute: FastifyPluginAsync = async (server) => {
+export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
   // GET /restaurants
   server.get(
     '/restaurants',
