@@ -1,2 +1,3 @@
-src/migrations/**
+src/migrations
+collections
 node_modules

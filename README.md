@@ -24,21 +24,19 @@ npm install
 docker-compose up
 ```
 
-2. Second, still at the root of the project, run the command:
-
-```
-npm run migration:run
-```
-
-3. Build and run the app.
-
-Still in a terminal at the root of the project, first run:
+2. Second, still at the root of the project, run this command to build the project:
 
 ```shell
 npm run build
 ```
 
-Then, in the same terminal, run:
+3. Then make the migration of the database with this command:
+
+```
+npm run migration:run
+```
+
+4. Finally, in the same terminal, run this command to start:
 
 ```shell
 npm run start
