@@ -1,14 +1,14 @@
 import { fastify } from './configs/server.config';
+import { config } from './configs';
 import fastifySwagger from 'fastify-swagger';
-import { createConnection, getConnectionOptions } from 'typeorm';
 import 'reflect-metadata';
 import dotenv from 'dotenv';
-import { swaggerConfig } from './configs';
-import { RestaurantsRoute } from './routes/restaurants';
+import { createConnection, getConnectionOptions } from 'typeorm';
+import { RestaurantsRoute } from './routes/restaurants.route';
 
 dotenv.config();
 
-fastify.register(fastifySwagger, swaggerConfig);
+fastify.register(fastifySwagger, config.swagger);
 fastify.register(RestaurantsRoute);
 
 const start = async () => {

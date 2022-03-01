@@ -1,1 +1,7 @@
-export { swaggerConfig } from './swagger.config';
+import { swaggerConfig } from './swagger.config';
+
+const config = {
+  swagger: swaggerConfig
+};
+
+export { config };

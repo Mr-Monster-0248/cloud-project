@@ -2,29 +2,35 @@ import { FastifyServerOptions } from 'fastify';
 import fastifyFactory from 'fastify';
 import { config } from 'dotenv';
 import { checkLogPath } from '../utils/checkLogPath';
-import { restaurantBase } from '../dto/base/restaurantBase';
-import { reviewBase } from '../dto/base/reviewBase';
-import { userBase } from '../dto/base/userBase';
-import { restaurantsDto } from '../dto/restaurantsDto';
+import { RestaurantBaseDTO } from '../dto/base/restaurant-base.dto';
+import { RestaurantDTO } from '../dto/restaurant.dto';
+import { ReviewBaseDTO } from '../dto/base/review-base.dto';
+import { ReviewDTO } from '../dto/review.dto';
+import { UserBaseDTO } from '../dto/base/user-base.dto';
+import { UserDTO } from '../dto/user.dto';
 
 config();
 
 const environment = process.env.NODE_ENV || 'development';
 
-export const fastify = fastifyFactory({
+const serverOptions: FastifyServerOptions = {
   logger: {
     level: 'info',
     file: checkLogPath(),
     prettyPrint:
       environment === 'development'
         ? {
-            translateTime: 'HH:MM:ss Z',
-            ignore: 'pid,hostname',
-          }
+          translateTime: 'HH:MM:ss Z',
+          ignore: 'pid,hostname',
+        }
         : false,
   },
-})
-  .addSchema(restaurantBase)
-  .addSchema(reviewBase)
-  .addSchema(userBase)
-  .addSchema(restaurantsDto);
+};
+
+export const fastify = fastifyFactory(serverOptions)
+  .addSchema(RestaurantBaseDTO)
+  .addSchema(ReviewBaseDTO)
+  .addSchema(UserBaseDTO)
+  .addSchema(RestaurantDTO)
+  .addSchema(ReviewDTO)
+  .addSchema(UserDTO);
