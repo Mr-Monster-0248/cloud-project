@@ -3,7 +3,7 @@ import fastifyFactory from 'fastify';
 import { config } from 'dotenv';
 import { checkLogPath } from '../utils/checkLogPath';
 import { RestaurantBaseDTO } from '../dto/base/restaurant-base.dto';
-import { RestaurantDTO } from '../dto/restaurant.dto';
+import { NewRestaurantDTO, RestaurantDTO } from '../dto/restaurant.dto';
 import { ReviewBaseDTO } from '../dto/base/review-base.dto';
 import { ReviewDTO } from '../dto/review.dto';
 import { UserBaseDTO } from '../dto/base/user-base.dto';
@@ -32,5 +32,6 @@ export const fastify = fastifyFactory(serverOptions)
   .addSchema(ReviewBaseDTO)
   .addSchema(UserBaseDTO)
   .addSchema(RestaurantDTO)
+  .addSchema(NewRestaurantDTO)
   .addSchema(ReviewDTO)
   .addSchema(UserDTO);

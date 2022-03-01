@@ -2,27 +2,41 @@
 
 ## Endpoints
 
-### Route `/restaurants`
+### Restaurants
+
+#### Path from root: `/restaurants`
 
 | Method | Sub-route | Description                          | Auth level required | Done |
 | ------ | --------- | ------------------------------------ | :-----------------: | :--: |
 | GET    | `/`       | Gets all restaurants                 |        None         |  ✔   |
-| POST   | `/`       | Adds a new restaurant                |      Logged in      |      |
+| POST   | `/`       | Adds a new restaurant                |     Registered      |      |
 | GET    | `/:id`    | Gets the restaurant with id `:id`    |        None         |  ✔   |
 | PUT    | `/:id`    | Updates the restaurant with id `:id` |   Owner of `:id`    |      |
 | DELETE | `/:id`    | Deletes the restaurant with id `:id` |   Owner of `:id`    |      |
 
-### Route `/reviews`
+#### Path from root: `/restaurants/:id/reviews`
 
-| Method | Sub-route | Description                      | Auth level required | Done |
-| ------ | --------- | -------------------------------- | :-----------------: | :--: |
-| GET    | `/`       | Gets all reviews                 |        None         |      |
-| POST   | `/`       | Adds a new review                |      Logged in      |      |
-| GET    | `/:id`    | Gets the review with id `:id`    |        None         |      |
-| PUT    | `/:id`    | Updates the review with id `:id` |  Reviewer of `:id`  |      |
-| DELETE | `/:id`    | Deletes the review with id `:id` |  Reviewer of `:id`  |      |
+| Method | Sub-route    | Description                               |   Auth level required   | Done |
+| ------ | ------------ | ----------------------------------------- | :---------------------: | :--: |
+| GET    | `/`          | Get all reviews for the restaurant `:id`  |          None           |      |
+| POST   | `/`          | Adds a new review to the restaurant `:id` |       Registered        |      |
+| GET    | `/:reviewId` | Gets the review with id `:reviewId`       |          None           |      |
+| PUT    | `/:reviewId` | Updates the review with id `:reviewId`    | Reviewer of `:reviewId` |      |
+| DELETE | `/:reviewId` | Deletes the review with id `:reviewId`    | Reviewer of `:reviewId` |      |
 
-### Route `/users`
+### Reviews
+
+#### Path from root: `/reviews`
+
+| Method | Sub-route    | Description                            |   Auth level required   | Done |
+| ------ | ------------ | -------------------------------------- | :---------------------: | :--: |
+| GET    | `/:reviewId` | Gets the review with id `:reviewId`    |          None           |      |
+| PUT    | `/:reviewId` | Updates the review with id `:reviewId` | Reviewer of `:reviewId` |      |
+| DELETE | `/:reviewId` | Deletes the review with id `:reviewId` | Reviewer of `:reviewId` |      |
+
+### Users
+
+#### Path from root: `/users`
 
 | Method | Sub-route | Description                    | Auth level required | Done |
 | ------ | --------- | ------------------------------ | :-----------------: | :--: |
@@ -31,12 +45,23 @@
 | PUT    | `/:id`    | Updates the user with id `:id` | User with id `:id`  |      |
 | DELETE | `/:id`    | Deletes the user with id `:id` | User with id `:id`  |      |
 
-### Route `/auth`
+#### Path from root: `/users/:id/reviews`
 
-| Method | Sub-route   | Description          | Auth level required | Done |
-| ------ | ----------- | -------------------- | :-----------------: | :--: |
-| POST   | `/`         | Logs an User in      |        None         |      |
-| POST   | `/register` | Registers a new User |        None         |      |
+| Method | Sub-route    | Description                            |   Auth level required   | Done |
+| ------ | ------------ | -------------------------------------- | :---------------------: | :--: |
+| GET    | `/`          | Get all reviews for the user `:id`     |          None           |      |
+| POST   | `/`          | Adds a new review to the user `:id`    |   User with id `:id`    |      |
+| GET    | `/:reviewId` | Gets the review with id `:reviewId`    |          None           |      |
+| PUT    | `/:reviewId` | Updates the review with id `:reviewId` | Reviewer of `:reviewId` |      |
+| DELETE | `/:reviewId` | Deletes the review with id `:reviewId` | Reviewer of `:reviewId` |      |
+
+### Auth
+
+#### Path from root: `/auth`
+
+| Method | Sub-route   | Description                              | Auth level required | Done |
+| ------ | ----------- | ---------------------------------------- | :-----------------: | :--: |
+| POST   | `/register` | Registers a new User, sends back API key |        None         |      |
 
 ## 📄 Rapport
 

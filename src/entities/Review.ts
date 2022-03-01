@@ -14,10 +14,10 @@ export class Review {
   @PrimaryGeneratedColumn({ name: 'review_id' })
   reviewId: number;
 
-  @ManyToOne(() => User, (user) => user.reviews)
+  @ManyToOne(() => User, (user) => user.reviews, { onDelete: 'CASCADE' })
   reviewer: User;
 
-  @ManyToOne(() => Restaurant, (restaurant) => restaurant.reviews)
+  @ManyToOne(() => Restaurant, (restaurant) => restaurant.reviews, { onDelete: 'CASCADE' })
   restaurant: Restaurant;
 
   @Column({ nullable: true })

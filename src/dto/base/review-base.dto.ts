@@ -1,5 +1,7 @@
 import { Type, Static } from '@sinclair/typebox'; // package advised by Fastify
 
+// TODO: change descriptions
+
 export const ReviewBaseDTO = Type.Object(
   {
     reviewId: Type.Integer(),
