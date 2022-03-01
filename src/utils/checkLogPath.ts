@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 export function checkLogPath(): string | undefined {
-  if (process.env.ENVIRONMENT === 'development') return undefined;
+  if (process.env.NODE_ENV === 'development') return undefined;
 
   const logDir = __dirname + '/logs';
   const logPath = `${logDir}/${process.env.LOG_FILE_NAME || 'server.log'}`;

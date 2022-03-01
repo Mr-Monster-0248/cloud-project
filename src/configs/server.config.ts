@@ -4,7 +4,7 @@ import { checkLogPath } from '../utils/checkLogPath';
 
 config();
 
-const environment = process.env.ENVIRONMENT || 'development';
+const environment = process.env.NODE_ENV || 'development';
 
 export const serverConfig: FastifyServerOptions = {
   logger: {

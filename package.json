@@ -3,13 +3,6 @@
   "version": "0.0.1",
   "description": "node rest project",
   "main": "dist/index.js",
-  "scripts": {
-    "test": "echo not implemented",
-    "build": "tsc",
-    "start": "node .",
-    "dev": "nodemon --exec 'tsc && node .' --ext 'ts,json'",
-    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cvbenur/node-rest-project.git"
@@ -25,6 +18,31 @@
     "url": "https://github.com/cvbenur/node-rest-project/issues"
   },
   "homepage": "https://github.com/cvbenur/node-rest-project#readme",
+  "scripts": {
+    "test": "echo not implemented",
+    "build": "tsc",
+    "start": "node .",
+    "dev": "nodemon src/index.ts",
+    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      ".git",
+      "node_modules/",
+      "dist/"
+    ],
+    "watch": [
+      "./src"
+    ],
+    "execMap": {
+      "ts": "node -r ts-node/register"
+    },
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "ext": "js,json,ts"
+  },
   "dependencies": {
     "@sinclair/typebox": "^0.23.4",
     "dotenv": "^11.0.0",
