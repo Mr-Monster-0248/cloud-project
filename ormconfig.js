@@ -7,7 +7,11 @@ module.exports = {
   port: process.env.DATABASE_PORT,
   synchronize: false,
   logging: false,
-  entities: ['dist/entities/*.js'],
+  entities: [
+    process.env.NODE_ENV === 'development'
+      ? 'src/entities/*.ts'
+      : 'dist/entities/*.js',
+  ],
   migrations: ['dist/migrations/*.js'],
   cli: {
     migrationsDir: 'migration',
