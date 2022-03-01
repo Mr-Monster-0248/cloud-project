@@ -1,17 +1,10 @@
 import { RouteHandler } from 'fastify';
-import { Restaurant } from '../entities/Restaurant';
-import { getConnection } from 'typeorm';
+import { getAllRestaurants, getOneRestaurantById } from '../services/database/restaurant-queries.service';
 
 // GET /restaurants
 const getRestaurants: RouteHandler = async (req, res) => {
-  const restos = await getConnection()
-    .getRepository(Restaurant)
-    .createQueryBuilder('restaurant')
-    .leftJoinAndSelect('restaurant.owner', 'user')
-    .leftJoinAndSelect('restaurant.reviews', 'review')
-    .getMany();
+  const restos = await getAllRestaurants();
 
-  console.log(restos);
   res.code(200).send(restos);
 };
 
@@ -20,13 +13,8 @@ const getRestaurant: RouteHandler<{ Params: { id: number } }> = async (
   req,
   res
 ) => {
-  const resto = await getConnection()
-    .getRepository(Restaurant)
-    .createQueryBuilder('restaurant')
-    .leftJoinAndSelect('restaurant.owner', 'user')
-    .leftJoinAndSelect('restaurant.reviews', 'review')
-    .where('restaurant.restaurantId = :id', { id: req.params.id })
-    .getOne();
+  // TODO: try catch
+  const resto = await getOneRestaurantById(req.params.id);
 
   if (resto) {
     res.code(200).send(resto);
