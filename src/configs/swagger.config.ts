@@ -2,7 +2,7 @@ import { SwaggerOptions } from 'fastify-swagger';
 
 export const swaggerConfig: SwaggerOptions = {
   exposeRoute: true,
-  routePrefix: '/doc',
+  routePrefix: '/docs',
   swagger: {
     info: {
       title: 'Node project API',

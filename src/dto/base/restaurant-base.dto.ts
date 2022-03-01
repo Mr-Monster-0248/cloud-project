@@ -1,6 +1,8 @@
 import { Type, Static } from '@sinclair/typebox'; // package advised by Fastify
 import { Nullable } from '../../utils/nullable';
 
+// TODO: change descriptions
+
 export const RestaurantBaseDTO = Type.Object(
   {
     restaurantId: Type.Integer(),

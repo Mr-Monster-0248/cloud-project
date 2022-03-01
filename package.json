@@ -23,7 +23,7 @@
     "build": "tsc",
     "start": "node .",
     "dev": "nodemon src/index.ts",
-    "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
+    "migration:run": "tsc && ts-node ./node_modules/typeorm/cli.js migration:run"
   },
   "nodemonConfig": {
     "restartable": "rs",

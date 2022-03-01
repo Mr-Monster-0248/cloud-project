@@ -18,7 +18,7 @@ export class Restaurant {
   @JoinColumn()
   owner: User;
 
-  @OneToMany(() => Review, (review) => review.restaurant)
+  @OneToMany(() => Review, (review) => review.restaurant, { cascade: true })
   reviews: Review[];
 
   @Column()

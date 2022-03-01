@@ -14,6 +14,6 @@ module.exports = {
   ],
   migrations: ['dist/migrations/*.js'],
   cli: {
-    migrationsDir: 'migration',
+    migrationsDir: 'src/migrations',
   },
 };
