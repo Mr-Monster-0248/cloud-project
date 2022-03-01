@@ -31,5 +31,5 @@ export class Restaurant {
   address: string;
 
   @Column({ nullable: true })
-  imgUrl: number;
+  imgUrl: string;
 }

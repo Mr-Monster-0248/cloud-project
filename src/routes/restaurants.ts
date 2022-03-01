@@ -1,7 +1,8 @@
 import { FastifyPluginAsync } from 'fastify';
 import { getRestaurant, getRestaurants } from '../controllers/restaurants';
+import { restaurantBase } from '../dto/base/restaurantBase';
+import { restaurantsDto } from '../dto/restaurantsDto';
 import { ErrorResponse } from '../models/ErrorResponse';
-import { Restaurant } from '../models/Restaurant';
 
 export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
   // GET /restaurants
@@ -14,7 +15,7 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
           200: {
             description: 'Success response',
             type: 'array',
-            items: Restaurant,
+            items: restaurantsDto,
           },
           404: ErrorResponse,
         },
@@ -39,7 +40,7 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
           },
         },
         response: {
-          200: Restaurant,
+          200: restaurantsDto,
           404: ErrorResponse,
         },
       },
