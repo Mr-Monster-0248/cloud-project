@@ -75,3 +75,27 @@
   - [ ] Swagger
   - [ ] Postgres
   - [ ] Docker/Docker Compose
+
+## Unit testing
+
+- [ ] all routes (mock services ? + inject http)
+- [ ] all services (mock database queries ?)
+- [ ] authentication (mock database queries ?)
+- [ ] utility functions
+
+## Response code handling
+
+### Success responses
+
+- [ ] 200 OK
+- [ ] 201 Created
+
+### Error handling
+
+- [ ] 400 bad request
+- [ ] 401 unauthorised -> not auth
+- [ ] 403 forbidden -> auth but no access
+- [ ] 404 not found
+
+- [ ] 500 internal server error
+- [ ] 501 not implemented
