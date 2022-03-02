@@ -12,8 +12,8 @@ module.exports = {
       ? 'src/entities/*.ts'
       : 'dist/entities/*.js',
   ],
-  migrations: ['dist/migrations/*.js'],
+  migrations: ['migrations/*.ts'],
   cli: {
-    migrationsDir: 'src/migrations',
+    migrationsDir: 'migrations',
   },
 };

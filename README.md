@@ -36,7 +36,12 @@ npm run build
 npm run migration:run
 ```
 
-4. Finally, in the same terminal, run this command to start:
+4. To pupulate the database run:
+
+- on MacOS/Linux `bash scripts/populate-db.sh`
+- on Windows `./script/populate-db.bat`
+
+5. Finally, in the same terminal, run this command to start:
 
 ```shell
 npm run start
