@@ -1,2 +1,2 @@
 #!/bin/bash
-npm run typeorm query "$(cat migrations/sql/reset.sql | tr -d '\n')"
+npm run typeorm query "$(cat migrations/sql/clear-data.sql | tr -d '\n')"
