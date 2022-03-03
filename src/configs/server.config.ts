@@ -8,6 +8,7 @@ import { ReviewBaseDTO } from '../dto/base/review-base.dto';
 import { ReviewDTO } from '../dto/review.dto';
 import { UserBaseDTO } from '../dto/base/user-base.dto';
 import { UserDTO } from '../dto/user.dto';
+import { AuthDto, AuthResponseDto } from '../dto/auth.dto';
 
 config();
 
@@ -20,9 +21,9 @@ const serverOptions: FastifyServerOptions = {
     prettyPrint:
       environment === 'development'
         ? {
-          translateTime: 'HH:MM:ss Z',
-          ignore: 'pid,hostname',
-        }
+            translateTime: 'HH:MM:ss Z',
+            ignore: 'pid,hostname',
+          }
         : false,
   },
 };
@@ -34,4 +35,6 @@ export const fastify = fastifyFactory(serverOptions)
   .addSchema(RestaurantDTO)
   .addSchema(NewRestaurantDTO)
   .addSchema(ReviewDTO)
-  .addSchema(UserDTO);
+  .addSchema(UserDTO)
+  .addSchema(AuthDto)
+  .addSchema(AuthResponseDto);

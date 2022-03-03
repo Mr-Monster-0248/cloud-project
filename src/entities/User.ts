@@ -12,6 +12,9 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
+  @Column({ nullable: false, unique: true })
+  token: string;
+
   @OneToMany(() => Review, (review) => review.reviewer, { cascade: true })
   reviews: Review[];
 }

@@ -1,7 +1,12 @@
 import { FastifyPluginAsync } from 'fastify';
-import { getRestaurant, getRestaurants } from '../controllers/restaurants.controller';
-import { RestaurantDTO } from '../dto/restaurant.dto';
+import {
+  addRestaurant,
+  getRestaurant,
+  getRestaurants,
+} from '../controllers/restaurants.controller';
+import { NewRestaurantDTO, RestaurantDTO } from '../dto/restaurant.dto';
 import { ErrorResponse } from '../models/ErrorResponse';
+import { checkIsAuthenticated } from '../services/auth';
 
 export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
   // GET /restaurants
@@ -45,5 +50,31 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
       },
     },
     getRestaurant
+  );
+
+  // POST /restaurants
+  server.post<{ Body: NewRestaurantDTO }>(
+    '/restaurants',
+    {
+      schema: {
+        description: 'List one restaurants',
+        params: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'string',
+              description: 'restaurant id',
+            },
+          },
+        },
+        body: NewRestaurantDTO,
+        response: {
+          200: RestaurantDTO,
+          404: ErrorResponse,
+        },
+      },
+      preHandler: checkIsAuthenticated,
+    },
+    addRestaurant
   );
 };

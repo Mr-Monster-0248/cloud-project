@@ -1,7 +1,3 @@
-import { swaggerConfig } from './swagger.config';
-
-const config = {
-  swagger: swaggerConfig
-};
-
-export { config };
+export { swaggerConfig } from './swagger.config';
+export { sessionOption } from './redis.config';
+export { fastify } from './server.config';

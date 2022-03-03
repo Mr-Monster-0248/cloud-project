@@ -1,11 +1,12 @@
-import { getConnection } from "typeorm";
+import { getConnection } from 'typeorm';
 import { Restaurant } from '../../entities/Restaurant';
+import { User } from '../../entities/User';
 
 /**
  * Retrieve all the Restaurants from the DB
  * @returns Array of Restaurant as a Promise
  */
-export async function getAllRestaurants (): Promise<Restaurant[]> {
+export async function getAllRestaurants(): Promise<Restaurant[]> {
   // Return the resulting array of Restaurant
   return await getConnection()
     .getRepository(Restaurant)
@@ -19,9 +20,11 @@ export async function getAllRestaurants (): Promise<Restaurant[]> {
 /**
  * Retrieve a single Restauant from the DB from its ID
  * @param restaurantId The ID of the Restaurant to retrieve
- * @returns 
+ * @returns
  */
-export async function getOneRestaurantById (restaurantId: number): Promise<Restaurant> {
+export async function getOneRestaurantById(
+  restaurantId: number
+): Promise<Restaurant> {
   // Return the resulting Restaurant of fail
   return await getConnection()
     .getRepository(Restaurant)
@@ -35,15 +38,19 @@ export async function getOneRestaurantById (restaurantId: number): Promise<Resta
 /**
  * Save a Restaurant in the DB
  * @param restaurant The Restaurant to save
- * @returns 
+ * @returns
  */
-export async function saveRestaurant (restaurant: Restaurant) {
+export async function saveRestaurant(restaurant: Restaurant) {
   await getConnection()
     .createQueryBuilder()
     .insert()
     .into(Restaurant)
     .values({
-      ...restaurant,
+      name: restaurant.name,
+      description: restaurant.description,
+      address: restaurant.address,
+      imgUrl: restaurant.imgUrl,
+      owner: restaurant.owner,
     })
     .execute();
 }
@@ -52,7 +59,7 @@ export async function saveRestaurant (restaurant: Restaurant) {
  * Delete a Restaurant from the DB
  * @param restaurantId The ID of the Restaurant to delete
  */
-export async function deleteRestaurant (restaurantId: number) {
+export async function deleteRestaurant(restaurantId: number) {
   await getConnection()
     .createQueryBuilder()
     .delete()
