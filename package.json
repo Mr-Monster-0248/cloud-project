@@ -2,7 +2,7 @@
   "name": "rest-project",
   "version": "0.0.1",
   "description": "node rest project",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cvbenur/node-rest-project.git"
