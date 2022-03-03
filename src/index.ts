@@ -6,6 +6,7 @@ import 'reflect-metadata';
 import dotenv from 'dotenv';
 import { createConnection, getConnectionOptions } from 'typeorm';
 import { RestaurantsRoute } from './routes/restaurants.route';
+import { AuthRoute } from './routes/auth.route';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ fastify.register(fastifyCookie);
 fastify.register(fastifySession, sessionOption);
 
 // server plugins and routes
+fastify.register(AuthRoute);
 fastify.register(RestaurantsRoute);
 
 const start = async () => {
