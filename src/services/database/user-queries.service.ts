@@ -57,7 +57,9 @@ export async function saveUser(user: User) {
     .insert()
     .into(User)
     .values({
-      ...user,
+      username: user.username,
+      password: user.password,
+      token: user.token,
     })
     .execute();
 }

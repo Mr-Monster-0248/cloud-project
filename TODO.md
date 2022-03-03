@@ -61,7 +61,8 @@
 
 | Method | Sub-route   | Description                              | Auth level required | Done |
 | ------ | ----------- | ---------------------------------------- | :-----------------: | :--: |
-| POST   | `/register` | Registers a new User, sends back API key |        None         |      |
+| POST   | `/`         | Sends back API key                       |        None         |  ✔   |
+| POST   | `/register` | Registers a new User, sends back API key |        None         |  ✔   |
 
 ## 📄 Rapport
 
