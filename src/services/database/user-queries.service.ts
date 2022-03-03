@@ -28,6 +28,20 @@ export async function getOneUserById(userId: number): Promise<User> {
 }
 
 /**
+ * Retrieve a single User from the DB
+ * @param token The token of the user
+ * @returns User as a Promise
+ */
+export async function getOneUserByToken(token: string): Promise<User> {
+  // Return the resulting User or fail
+  return await getConnection()
+    .getRepository(User)
+    .createQueryBuilder('user')
+    .where('user.token = :token', { token: token })
+    .getOneOrFail();
+}
+
+/**
  * Retrieve a token with a matching username and password
  * @param username The username of the user
  * @param password The password of the user
