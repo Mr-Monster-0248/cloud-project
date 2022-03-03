@@ -14,7 +14,7 @@ module.exports = {
   ],
   migrations: [
     process.env.NODE_ENV === 'development'
-      ? 'src/migrations/*.ts'
+      ? 'migrations/*.ts'
       : 'dist/migrations/*.js',
   ],
   cli: {
