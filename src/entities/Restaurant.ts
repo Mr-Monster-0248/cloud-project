@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Review } from './Review';
 import { User } from './User';
+import { NewRestaurantDTO } from '../dto/restaurant.dto';
 
 @Entity()
 export class Restaurant {
@@ -32,4 +33,12 @@ export class Restaurant {
 
   @Column({ nullable: true })
   imgUrl: string;
+
+  constructor(restaurant?: Partial<NewRestaurantDTO>, owner?: User) {
+    this.name = restaurant?.name ?? this.name;
+    this.description = restaurant?.description ?? this.description;
+    this.address = restaurant?.address ?? this.address;
+    this.imgUrl = restaurant?.imgUrl ?? this.imgUrl;
+    this.owner = owner ?? this.owner;
+  }
 }
