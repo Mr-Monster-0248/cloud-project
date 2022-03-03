@@ -58,19 +58,10 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
     {
       schema: {
         description: 'List one restaurants',
-        params: {
-          type: 'object',
-          properties: {
-            id: {
-              type: 'string',
-              description: 'restaurant id',
-            },
-          },
-        },
         body: NewRestaurantDTO,
         response: {
           200: RestaurantDTO,
-          404: ErrorResponse,
+          400: ErrorResponse,
         },
       },
       preHandler: checkIsAuthenticated,
