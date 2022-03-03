@@ -65,8 +65,8 @@ export async function getTokenByUsernameAndPassword(
  * Save a User in the DB
  * @param user The User to save
  */
-export async function saveUser(user: User) {
-  await getConnection()
+export async function saveUser (user: User): Promise<number> {
+  const result = await getConnection()
     .createQueryBuilder()
     .insert()
     .into(User)
@@ -76,6 +76,8 @@ export async function saveUser(user: User) {
       token: user.token,
     })
     .execute();
+  
+  return result.identifiers[0].userId as number;
 }
 
 /**

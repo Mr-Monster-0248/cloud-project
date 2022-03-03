@@ -42,8 +42,8 @@ const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (req, res) => {
   );
 
   saveRestaurant(newResto)
-    .then(() => {
-      res.code(201).send();
+    .then((restaurantId) => {
+      res.code(201).send({ restaurantId });
     })
     .catch(() => {
       res.code(400).send(new Error('Could not create restaurant'));

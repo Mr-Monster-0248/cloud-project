@@ -1,6 +1,5 @@
 import { getConnection } from 'typeorm';
 import { Restaurant } from '../../entities/Restaurant';
-import { User } from '../../entities/User';
 
 /**
  * Retrieve all the Restaurants from the DB
@@ -38,21 +37,19 @@ export async function getOneRestaurantById(
 /**
  * Save a Restaurant in the DB
  * @param restaurant The Restaurant to save
- * @returns
+ * @returns The ID of the newly created Restaurant
  */
-export async function saveRestaurant(restaurant: Restaurant) {
-  await getConnection()
+export async function saveRestaurant (restaurant: Restaurant): Promise<number> {
+  const result = await getConnection()
     .createQueryBuilder()
     .insert()
     .into(Restaurant)
     .values({
-      name: restaurant.name,
-      description: restaurant.description,
-      address: restaurant.address,
-      imgUrl: restaurant.imgUrl,
-      owner: restaurant.owner,
+      ...restaurant,
     })
     .execute();
+  
+  return result.identifiers[0].restaurantId;
 }
 
 /**

@@ -50,7 +50,7 @@ export async function getOneReviewById (reviewId: number, options?: ReviewQueryO
   const queryBuilder = getConnection()
     .getRepository(Review)
     .createQueryBuilder('review')
-    .leftJoinAndSelect('review.user', 'user')
+    .leftJoinAndSelect('review.reviewer', 'user')
     .where('review.reviewId = :id', { id: reviewId });
   
   // If some options were supplied
@@ -60,14 +60,14 @@ export async function getOneReviewById (reviewId: number, options?: ReviewQueryO
       // Filter query by Restaurant ID
       queryBuilder
         .leftJoinAndSelect('review.restaurant', 'restaurant')
-        .andWhere('review.restaurantId = :id', { id: options.restaurantId });
+        .andWhere('restaurant.restaurantId = :id', { id: options.restaurantId });
     }
 
     // If a User ID was supplied
     if (options.userId) {
       // Filter query by Restaurant ID
       queryBuilder
-        .andWhere('review.userId = :id', { id: options.userId });
+        .andWhere('user.userId = :id', { id: options.userId });
     }
   }
   
@@ -78,9 +78,10 @@ export async function getOneReviewById (reviewId: number, options?: ReviewQueryO
 /**
  * Save a Review in the DB
  * @param review The Review to save
+ * @returns The ID of the newly created Restaurant
  */
-export async function saveReview (review: Review) {
-  await getConnection()
+export async function saveReview (review: Review): Promise<number> {
+  const result = await getConnection()
     .createQueryBuilder()
     .insert()
     .into(Review)
@@ -88,6 +89,8 @@ export async function saveReview (review: Review) {
       ...review,
     })
     .execute();
+  
+  return result.identifiers[0].reviewId as number;
 }
 
 /**
