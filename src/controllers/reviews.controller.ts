@@ -1,11 +1,31 @@
-import { RouteHandler } from "fastify";
+import { RouteHandler } from 'fastify';
 import {
-  getOneReviewById, saveReview,
+  getAllReviews,
+  getOneReviewById,
+  saveReview,
 } from '../services/database/review-queries.service';
-import { NewReviewDTO } from "../dto/review.dto";
+import { NewReviewDTO, ReviewIdParam } from '../dto/review.dto';
 import { Review } from '../entities/Review';
+import { RestaurantIdParam } from '../dto/restaurant.dto';
+import { UserIdParam } from '../dto/user.dto';
 
-const getReview: RouteHandler<{ Params: { reviewId: number } }> = (req, res) => {
+export const getReviews: RouteHandler<{
+  Params: RestaurantIdParam | UserIdParam;
+}> = (req, res) => {
+  getAllReviews(req.params)
+    .then((reviews) => {
+      res.code(200).send(reviews);
+    })
+    .catch((err) => {
+      res.log.error(err);
+      res.code(500).send(new Error('Something went wrong'));
+    });
+};
+
+export const getReview: RouteHandler<{ Params: ReviewIdParam }> = (
+  req,
+  res
+) => {
   getOneReviewById(req.params.reviewId)
     .then((review) => {
       res.code(200).send(review);
@@ -16,15 +36,17 @@ const getReview: RouteHandler<{ Params: { reviewId: number } }> = (req, res) => 
     });
 };
 
-const addReview: RouteHandler<{ Body: NewReviewDTO }> = (req, res) => {
-  const newReview = new Review(
-    {
-      content: req.body.content,
-      grade: req.body.grade,
-      reviewerId: req.session.userId,
-      restaurantId: req.body.restaurantId
-    }
-  );
+export const addReview: RouteHandler<{ Body: NewReviewDTO }> = (req, res) => {
+  if (req.body.grade > 5 || req.body.grade < 0) {
+    res.code(400).send(new Error('Grade has to be between 0 and 5'));
+    return;
+  }
+  const newReview = new Review({
+    content: req.body.content,
+    grade: req.body.grade,
+    reviewerId: req.session.userId,
+    restaurantId: req.body.restaurantId,
+  });
 
   saveReview(newReview)
     .then((reviewId) => {
@@ -34,6 +56,4 @@ const addReview: RouteHandler<{ Body: NewReviewDTO }> = (req, res) => {
       res.log.error(err);
       res.code(400).send(new Error('Could not create review'));
     });
-}
-
-export { getReview, addReview };
+};
