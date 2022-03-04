@@ -2,7 +2,10 @@ import { NewRestaurantDTO } from '../dto/restaurant.dto';
 import { User } from '../entities/User';
 import { Restaurant } from '../entities/Restaurant';
 
-export const buildNewRestaurant = (restaurant: NewRestaurantDTO, ownerId: number) => {
+export const buildNewRestaurant = (
+  restaurant: NewRestaurantDTO | Partial<NewRestaurantDTO>,
+  ownerId: number
+) => {
   const currentUser = new User();
   currentUser.userId = ownerId;
 
@@ -14,5 +17,5 @@ export const buildNewRestaurant = (restaurant: NewRestaurantDTO, ownerId: number
       imgUrl: restaurant.imgUrl,
     },
     currentUser
-  )
-}
+  );
+};

@@ -3,18 +3,18 @@ import {
   addRestaurant,
   getRestaurant,
   getRestaurants,
-  putRestaurant,
+  putPatchRestaurant,
 } from '../controllers/restaurants.controller';
 import { GenericCreatedDTO } from '../dto/generic.dto';
 import {
   NewRestaurantDTO,
   RestaurantDTO,
-  RestaurantIdParam,
+  RestaurantIdParam, UpdateRestaurantDTO
 } from '../dto/restaurant.dto';
 import { ErrorResponse } from '../models/ErrorResponse';
 import { checkIsAuthenticated } from '../services/auth';
 import { checkIsOwner } from '../services/auth/check-is-owner.service';
-import { updateRestaurant } from '../services/database/restaurant-queries.service';
+import { Type } from '@sinclair/typebox';
 
 export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
   // GET /restaurants
@@ -82,12 +82,31 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
         params: RestaurantIdParam,
         body: NewRestaurantDTO,
         response: {
-          // 201: GenericCreatedDTO,
+          200: Type.Null(),
           400: ErrorResponse,
         },
       },
       preHandler: [checkIsAuthenticated, checkIsOwner],
     },
-    putRestaurant
+    putPatchRestaurant
+  );
+
+  // PUT /restaurants
+  server.patch<{ Params: RestaurantIdParam; Body: Partial<NewRestaurantDTO> }>(
+    '/restaurants/:restaurantId',
+    {
+      schema: {
+        tags: ['restaurants'],
+        description: 'List one restaurants',
+        params: RestaurantIdParam,
+        body: UpdateRestaurantDTO,
+        response: {
+          200: Type.Null(),
+          400: ErrorResponse,
+        },
+      },
+      preHandler: [checkIsAuthenticated, checkIsOwner],
+    },
+    putPatchRestaurant
   );
 };

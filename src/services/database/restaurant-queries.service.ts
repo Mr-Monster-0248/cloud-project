@@ -1,5 +1,6 @@
 import { getConnection } from 'typeorm';
 import { Restaurant } from '../../entities/Restaurant';
+import { filterUndefinedProperty } from '../../utils/filterUndefinedProperty';
 
 /**
  * Retrieve all the Restaurants from the DB
@@ -64,16 +65,12 @@ export async function updateRestaurant(
   restaurant: Restaurant,
   restaurantId: number
 ) {
+  const filtered = filterUndefinedProperty(restaurant);
+  
   await getConnection()
     .createQueryBuilder()
     .update(Restaurant)
-    .set({
-      name: restaurant.name,
-      description: restaurant.description,
-      address: restaurant.address,
-      imgUrl: restaurant.imgUrl,
-      owner: restaurant.owner,
-    })
+    .set({ ...filtered })
     .where('restaurantId = :id', { id: restaurantId })
     .execute();
 }

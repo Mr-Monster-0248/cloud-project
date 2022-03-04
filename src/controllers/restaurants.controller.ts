@@ -3,7 +3,7 @@ import {
   getAllRestaurants,
   getOneRestaurantById,
   saveRestaurant,
-  updateRestaurant
+  updateRestaurant,
 } from '../services/database/restaurant-queries.service';
 import { NewRestaurantDTO, RestaurantIdParam } from '../dto/restaurant.dto';
 import { Restaurant } from '../entities/Restaurant';
@@ -45,7 +45,7 @@ export const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (
   req,
   res
 ) => {
-  const newResto = buildNewRestaurant({...req.body}, req.session.userId)
+  const newResto = buildNewRestaurant({ ...req.body }, req.session.userId);
 
   saveRestaurant(newResto)
     .then((restaurantId) => {
@@ -57,11 +57,12 @@ export const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (
     });
 };
 
-export const putRestaurant: RouteHandler<{
+
+export const putPatchRestaurant: RouteHandler<{
   Params: RestaurantIdParam;
-  Body: NewRestaurantDTO;
+  Body: NewRestaurantDTO | Partial<NewRestaurantDTO>;
 }> = (req, res) => {
-  const newResto = buildNewRestaurant({...req.body}, req.session.userId)
+  const newResto = buildNewRestaurant({ ...req.body }, req.session.userId);
 
   updateRestaurant(newResto, req.params.restaurantId)
     .then(() => {
@@ -72,3 +73,4 @@ export const putRestaurant: RouteHandler<{
       res.code(400).send(new Error('Could not update restaurant'));
     });
 };
+
