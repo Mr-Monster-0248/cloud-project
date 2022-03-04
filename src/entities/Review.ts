@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { User } from './User';
 import { Restaurant } from './Restaurant';
+import { NewReviewDTO } from '../dto/review.dto';
 
 @Entity()
 @Check(`grade BETWEEN 0 AND 5`)
@@ -25,4 +26,11 @@ export class Review {
 
   @Column()
   grade: number;
+
+  constructor(review?: Partial<NewReviewDTO>, reviewer?: User, restaurant?: Restaurant) {
+    this.content = review?.content ?? this.content;
+    this.grade = review?.grade ?? this.grade;
+    this.reviewer = reviewer ?? this.reviewer;
+    this.restaurant = restaurant ?? this.restaurant;
+  }
 }

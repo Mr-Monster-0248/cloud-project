@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import { createConnection, getConnectionOptions } from 'typeorm';
 import { RestaurantsRoute } from './routes/restaurants.route';
 import { AuthRoute } from './routes/auth.route';
+import { ReviewsRoute } from './routes/reviews.route';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ fastify.register(fastifySession, sessionOption);
 // server plugins and routes
 fastify.register(AuthRoute);
 fastify.register(RestaurantsRoute);
+fastify.register(ReviewsRoute);
 
 const start = async () => {
   try {

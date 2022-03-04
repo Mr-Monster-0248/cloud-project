@@ -36,20 +36,20 @@ npm run build
 npm run migration:run
 ```
 
-4. To pupulate the database run:
+4. To populate the database run:
 
 - on MacOS/Linux `bash scripts/populate-db.sh`
-- on Windows `powershell ./script/populate-db.ps1`
+- on Windows `./script/populate-db.ps1`
 
 > To reset the database (drop all table):
 >
 > - on MacOS/Linux `bash scripts/reset-db.sh`
-> - Windows `poershell scripts/reset-db.ps1`
+> - Windows `./scripts/reset-db.ps1`
 >
 > To remove all the data without droping tables:
 >
 > - on MacOS/Linux `bash scripts/clear-db.sh`
-> - Windows `poershell scripts/clear-db.ps1`
+> - Windows `./scripts/clear-db.ps1`
 
 5. Finally, in the same terminal, run this command to start:
 
