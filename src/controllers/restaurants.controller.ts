@@ -9,10 +9,15 @@ import { Restaurant } from '../entities/Restaurant';
 import { User } from '../entities/User';
 
 // GET /restaurants
-const getRestaurants: RouteHandler = async (req, res) => {
-  const restos = await getAllRestaurants();
-
-  res.code(200).send(restos);
+const getRestaurants: RouteHandler = (req, res) => {
+  getAllRestaurants()
+    .then((restos) => {
+      res.code(200).send(restos);
+    })
+    .catch((err) => {
+      res.log.error(err);
+      res.code(500).send(new Error('Something went wrong'));
+    });
 };
 
 // GET /restaurants/:id
@@ -22,7 +27,8 @@ const getRestaurant: RouteHandler<{ Params: { id: number } }> = (req, res) => {
     .then((resto) => {
       res.code(200).send(resto);
     })
-    .catch(() => {
+    .catch((err) => {
+      res.log.error(err);
       res.code(404).send(new Error('Not Found')); // TODO: build custom Error
     });
 };
@@ -43,9 +49,10 @@ const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (req, res) => {
 
   saveRestaurant(newResto)
     .then((restaurantId) => {
-      res.code(201).send({ restaurantId });
+      res.code(201).send({ id: restaurantId });
     })
-    .catch(() => {
+    .catch((err) => {
+      res.log.error(err);
       res.code(400).send(new Error('Could not create restaurant'));
     });
 };

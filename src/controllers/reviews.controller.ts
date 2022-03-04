@@ -7,13 +7,18 @@ import { Review } from '../entities/Review';
 import { User } from '../entities/User';
 import { Restaurant } from '../entities/Restaurant';
 
-const getReview: RouteHandler<{ Params: { reviewId: number } }> = async (req, res) => {
-  const review = await getOneReviewById(req.params.reviewId);
-
-  res.code(200).send(review);
+const getReview: RouteHandler<{ Params: { reviewId: number } }> = (req, res) => {
+  getOneReviewById(req.params.reviewId)
+    .then((review) => {
+      res.code(200).send(review);
+    })
+    .catch((err) => {
+      res.log.error(err);
+      res.code(404).send(new Error('Review not found'));
+    });
 };
 
-const addReview: RouteHandler<{ Body: NewReviewDTO }> = async (req, res) => {
+const addReview: RouteHandler<{ Body: NewReviewDTO }> = (req, res) => {
   const currentUser = new User();
   currentUser.userId = req.session.userId;
 
@@ -32,10 +37,10 @@ const addReview: RouteHandler<{ Body: NewReviewDTO }> = async (req, res) => {
   // FIXME: the query passes but still throws an error
   saveReview(newReview)
     .then((reviewId) => {
-      res.code(201).send({ reviewId });
+      res.code(201).send({ id: reviewId });
     })
     .catch((err) => {
-      console.log(err);
+      res.log.error(err);
       res.code(400).send(new Error('Could not create review'));
     });
 }
