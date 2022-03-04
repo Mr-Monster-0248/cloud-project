@@ -1,4 +1,4 @@
-import { Type, Static } from '@sinclair/typebox'; // package advised by Fastify
+import { Static, Type } from '@sinclair/typebox'; // package advised by Fastify
 import { Nullable } from '../utils/nullable';
 import { RestaurantBaseDTO } from './base/restaurant-base.dto';
 import { UserBaseDTO } from './base/user-base.dto';
@@ -49,3 +49,4 @@ export type ReviewDTO = Static<typeof ReviewDTO>;
 export type ReviewResponseDTO = Static<typeof ReviewResponseDTO>;
 export type NewReviewDTO = Static<typeof NewReviewDTO>;
 export type UpdateReviewDTO = Static<typeof UpdateReviewDTO>;
+export type ReviewIdParam = Static<typeof ReviewIdParam>;

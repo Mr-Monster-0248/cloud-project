@@ -12,7 +12,7 @@ export const checkIsReviewer = (
         done();
       } else {
         res.log.warn(
-          `user ${req.session.userId} tried to access restaurant ${req.params.reviewId}`
+          `user ${req.session.userId} tried to access review ${req.params.reviewId}`
         );
         res.code(403).send(new Error('You need to be reviewer of the review'));
       }

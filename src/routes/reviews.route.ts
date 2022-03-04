@@ -11,7 +11,7 @@ import { checkIsAuthenticated } from '../services/auth';
 
 export const ReviewsRoute: FastifyPluginAsync = async (server) => {
   // GET /reviews/:reviewId
-  server.get<{ Params: { reviewId: number } }>(
+  server.get<{ Params: ReviewIdParam }>(
     '/reviews/:reviewId',
     {
       schema: {
