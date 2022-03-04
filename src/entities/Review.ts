@@ -1,9 +1,9 @@
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
   Check,
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './User';
 import { Restaurant } from './Restaurant';
@@ -56,7 +56,7 @@ export class Review {
     if (options?.restaurant) {
       this.restaurant = options.restaurant;
     } else if (options?.restaurantId) {
-      this.restaurant = new Restaurant(); // TODO add reviewerId
+      this.restaurant = new Restaurant({ restaurantId: options.restaurantId });
     }
   }
 }

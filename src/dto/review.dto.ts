@@ -19,7 +19,7 @@ export const ReviewDTO = Type.Object(
 export const ReviewResponseDTO = Type.Object(
   {
     reviewId: Type.Integer(),
-    content: Nullable(Type.String()),
+    content: Type.Optional(Type.String()),
     grade: Type.Integer(),
     reviewer: Type.Ref(UserBaseDTO),
   },
@@ -44,6 +44,12 @@ export const UpdateReviewDTO = Type.Object(
 );
 
 export const ReviewIdParam = Type.Object({ reviewId: Type.Integer() });
+
+export const ReviewFromUserOrRestaurantParam = Type.Object({
+  reviewerId: Type.Optional(Type.Integer()),
+  restaurantId: Type.Optional(Type.Integer()),
+  reviewId: Type.Integer(),
+});
 
 export type ReviewDTO = Static<typeof ReviewDTO>;
 export type ReviewResponseDTO = Static<typeof ReviewResponseDTO>;

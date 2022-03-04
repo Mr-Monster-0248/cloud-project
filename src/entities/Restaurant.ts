@@ -1,10 +1,10 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
+  Entity,
   JoinColumn,
   OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Review } from './Review';
 import { User } from './User';
@@ -45,15 +45,16 @@ export class Restaurant {
   imgUrl: string;
 
   constructor(options?: RestaurantOptions) {
+    this.restaurantId = options?.restaurantId ?? this.restaurantId;
     this.name = options?.name ?? this.name;
     this.description = options?.description ?? this.description;
     this.address = options?.address ?? this.address;
     this.imgUrl = options?.imgUrl ?? this.imgUrl;
 
     if (options?.owner) {
-      this.owner = options.owner
+      this.owner = options.owner;
     } else if (options?.ownerId) {
-      this.owner = new User({userId: options.ownerId})
+      this.owner = new User({ userId: options.ownerId });
     }
   }
 }

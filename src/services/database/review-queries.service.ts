@@ -1,4 +1,4 @@
-import { getConnection } from "typeorm";
+import { getConnection } from 'typeorm';
 import { Review } from '../../entities/Review';
 
 interface ReviewQueryOptions {
@@ -11,13 +11,15 @@ interface ReviewQueryOptions {
  * @param options Options to filter the query by
  * @returns Array of Review as a Promise
  */
-export async function getAllReviews (options: ReviewQueryOptions): Promise<Review[]> {
+export async function getAllReviews(
+  options: ReviewQueryOptions
+): Promise<Review[]> {
   // Create request stem to retrieve Reviews
   const queryBuilder = getConnection()
     .getRepository(Review)
     .createQueryBuilder('review')
-    .leftJoinAndSelect('review.user', 'user');
-  
+    .leftJoinAndSelect('review.reviewer', 'user');
+
   const { restaurantId, userId } = options;
 
   // If a Restaurant ID was supplied
@@ -25,16 +27,15 @@ export async function getAllReviews (options: ReviewQueryOptions): Promise<Revie
     // Filter query by Restaurant ID
     queryBuilder
       .leftJoinAndSelect('review.restaurant', 'restaurant')
-      .andWhere('review.restaurantId = :id', { id: restaurantId });
+      .andWhere('restaurant.restaurantId = :id', { id: restaurantId });
   }
 
   // If a User ID was supplied
   if (userId) {
     // Filter query by Restaurant ID
-    queryBuilder
-      .andWhere('review.userId = :id', { id: userId });
+    queryBuilder.andWhere('user.userId = :id', { id: userId });
   }
-  
+
   // Return the resulting array of Review
   return await queryBuilder.getMany();
 }
@@ -45,14 +46,17 @@ export async function getAllReviews (options: ReviewQueryOptions): Promise<Revie
  * @param options Options to filter the query by
  * @returns Review as a Promise
  */
-export async function getOneReviewById (reviewId: number, options?: ReviewQueryOptions): Promise<Review> {
+export async function getOneReviewById(
+  reviewId: number,
+  options?: ReviewQueryOptions
+): Promise<Review> {
   // Create request stem to retrieve Reviews
   const queryBuilder = getConnection()
     .getRepository(Review)
     .createQueryBuilder('review')
     .leftJoinAndSelect('review.reviewer', 'user')
     .where('review.reviewId = :id', { id: reviewId });
-  
+
   // If some options were supplied
   if (options) {
     // If a Restaurant ID was supplied
@@ -60,17 +64,18 @@ export async function getOneReviewById (reviewId: number, options?: ReviewQueryO
       // Filter query by Restaurant ID
       queryBuilder
         .leftJoinAndSelect('review.restaurant', 'restaurant')
-        .andWhere('restaurant.restaurantId = :id', { id: options.restaurantId });
+        .andWhere('restaurant.restaurantId = :id', {
+          id: options.restaurantId,
+        });
     }
 
     // If a User ID was supplied
     if (options.userId) {
       // Filter query by Restaurant ID
-      queryBuilder
-        .andWhere('user.userId = :id', { id: options.userId });
+      queryBuilder.andWhere('user.userId = :id', { id: options.userId });
     }
   }
-  
+
   // Return the resulting Review or fail
   return await queryBuilder.getOneOrFail();
 }
@@ -80,7 +85,7 @@ export async function getOneReviewById (reviewId: number, options?: ReviewQueryO
  * @param review The Review to save
  * @returns The ID of the newly created Restaurant
  */
-export async function saveReview (review: Review): Promise<number> {
+export async function saveReview(review: Review): Promise<number> {
   const result = await getConnection()
     .createQueryBuilder()
     .insert()
@@ -92,7 +97,7 @@ export async function saveReview (review: Review): Promise<number> {
       grade: review.grade,
     })
     .execute();
-  
+
   return result.identifiers[0].reviewId as number;
 }
 
@@ -100,7 +105,7 @@ export async function saveReview (review: Review): Promise<number> {
  * Delete a Review from the DB
  * @param reviewId The ID of the Review to delete
  */
-export async function deleteReview (reviewId: number) {
+export async function deleteReview(reviewId: number) {
   await getConnection()
     .createQueryBuilder()
     .delete()

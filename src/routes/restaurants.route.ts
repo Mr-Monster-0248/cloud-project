@@ -9,12 +9,14 @@ import { GenericCreatedDTO } from '../dto/generic.dto';
 import {
   NewRestaurantDTO,
   RestaurantDTO,
-  RestaurantIdParam, UpdateRestaurantDTO
+  RestaurantIdParam,
+  UpdateRestaurantDTO,
 } from '../dto/restaurant.dto';
 import { ErrorResponse } from '../models/ErrorResponse';
 import { checkIsAuthenticated } from '../services/auth';
 import { checkIsOwner } from '../services/auth/check-is-owner.service';
 import { Type } from '@sinclair/typebox';
+import { ReviewsRoute } from './reviews.route';
 
 export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
   // GET /restaurants
@@ -109,4 +111,7 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
     },
     putPatchRestaurant
   );
+
+  // reviews
+  server.register(ReviewsRoute, { prefix: '/restaurants/:restaurantId' });
 };
