@@ -4,6 +4,7 @@ import {
   getRestaurant,
   getRestaurants,
 } from '../controllers/restaurants.controller';
+import { GenericCreatedDTO } from '../dto/generic.dto';
 import { NewRestaurantDTO, RestaurantDTO } from '../dto/restaurant.dto';
 import { ErrorResponse } from '../models/ErrorResponse';
 import { checkIsAuthenticated } from '../services/auth';
@@ -60,7 +61,7 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
         description: 'List one restaurants',
         body: NewRestaurantDTO,
         response: {
-          200: RestaurantDTO,
+          201: GenericCreatedDTO,
           400: ErrorResponse,
         },
       },
