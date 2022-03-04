@@ -56,3 +56,4 @@ export type ReviewResponseDTO = Static<typeof ReviewResponseDTO>;
 export type NewReviewDTO = Static<typeof NewReviewDTO>;
 export type UpdateReviewDTO = Static<typeof UpdateReviewDTO>;
 export type ReviewIdParam = Static<typeof ReviewIdParam>;
+export type ReviewFromUserOrRestaurantParam = Static<typeof ReviewFromUserOrRestaurantParam>
