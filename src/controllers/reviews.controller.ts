@@ -6,7 +6,6 @@ import { NewReviewDTO } from "../dto/review.dto";
 import { Review } from '../entities/Review';
 import { User } from '../entities/User';
 import { Restaurant } from '../entities/Restaurant';
-import { getOneRestaurantById } from "../services/database/restaurant-queries.service";
 
 const getReview: RouteHandler<{ Params: { reviewId: number } }> = async (req, res) => {
   const review = await getOneReviewById(req.params.reviewId);
@@ -35,7 +34,8 @@ const addReview: RouteHandler<{ Body: NewReviewDTO }> = async (req, res) => {
     .then((reviewId) => {
       res.code(201).send({ reviewId });
     })
-    .catch(() => {
+    .catch((err) => {
+      console.log(err);
       res.code(400).send(new Error('Could not create review'));
     });
 }

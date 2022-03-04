@@ -45,7 +45,11 @@ export async function saveRestaurant (restaurant: Restaurant): Promise<number> {
     .insert()
     .into(Restaurant)
     .values({
-      ...restaurant,
+      name: restaurant.name,
+      description: restaurant.description,
+      address: restaurant.address,
+      imgUrl: restaurant.imgUrl,
+      owner: restaurant.owner,
     })
     .execute();
   

@@ -41,7 +41,6 @@ const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (req, res) => {
     currentUser
   );
 
-  // FIXME: the query passes but still throws an error
   saveRestaurant(newResto)
     .then((restaurantId) => {
       res.code(201).send({ restaurantId });

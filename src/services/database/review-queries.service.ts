@@ -86,7 +86,10 @@ export async function saveReview (review: Review): Promise<number> {
     .insert()
     .into(Review)
     .values({
-      ...review,
+      reviewer: review.reviewer,
+      restaurant: review.restaurant,
+      content: review.content,
+      grade: review.grade,
     })
     .execute();
   
