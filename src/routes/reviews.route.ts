@@ -1,12 +1,14 @@
 import { FastifyPluginAsync } from 'fastify';
 import {
-  addReview,
+  addReview, delReview,
   getReview,
   getReviews,
+  putPatchReview
 } from '../controllers/reviews.controller';
 import { GenericCreatedDTO } from '../dto/generic.dto';
 import {
   NewReviewDTO,
+  ReviewFromUserOrRestaurantParam,
   ReviewIdParam,
   ReviewResponseDTO,
 } from '../dto/review.dto';
@@ -14,6 +16,7 @@ import { ErrorResponse } from '../models/ErrorResponse';
 import { checkIsAuthenticated } from '../services/auth';
 import { RestaurantIdParam } from '../dto/restaurant.dto';
 import { UserIdParam } from '../dto/user.dto';
+import { checkIsReviewer } from '../services/auth/check-is-reviewer.service';
 
 export const ReviewsRoute: FastifyPluginAsync = async (server) => {
   // GET /reviews
@@ -40,13 +43,13 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
   );
 
   // GET /reviews/:reviewId
-  server.get<{ Params: ReviewIdParam }>(
+  server.get<{ Params: ReviewFromUserOrRestaurantParam }>(
     '/reviews/:reviewId',
     {
       schema: {
         tags: ['reviews'],
         description: 'Fetch a review by ID',
-        params: ReviewIdParam,
+        params: ReviewFromUserOrRestaurantParam,
         response: {
           200: ReviewResponseDTO,
           404: ErrorResponse,
@@ -72,5 +75,69 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
       preHandler: checkIsAuthenticated,
     },
     addReview
+  );
+
+  // PATCH /reviews/:reviewId
+  server.patch<{
+    Params: ReviewFromUserOrRestaurantParam;
+    Body: Partial<NewReviewDTO>;
+  }>(
+    '/reviews/:reviewId',
+    {
+      schema: {
+        tags: ['reviews'],
+        description: 'Add a new Review',
+        params: ReviewFromUserOrRestaurantParam,
+        // body: NewReviewDTO, FIXME: flemme
+        response: {
+          200: GenericCreatedDTO,
+          400: ErrorResponse,
+        },
+      },
+      preHandler: [checkIsAuthenticated, checkIsReviewer],
+    },
+    putPatchReview
+  );
+
+  // PATCH /reviews/:reviewId
+  server.put<{
+    Params: ReviewFromUserOrRestaurantParam;
+    Body: NewReviewDTO;
+  }>(
+    '/reviews/:reviewId',
+    {
+      schema: {
+        tags: ['reviews'],
+        description: 'Add a new Review',
+        params: ReviewFromUserOrRestaurantParam,
+        body: NewReviewDTO,
+        response: {
+          200: GenericCreatedDTO,
+          400: ErrorResponse,
+        },
+      },
+      preHandler: [checkIsAuthenticated, checkIsReviewer],
+    },
+    putPatchReview
+  );
+
+  // PATCH /reviews/:reviewId
+  server.delete<{
+    Params: ReviewFromUserOrRestaurantParam;
+  }>(
+    '/reviews/:reviewId',
+    {
+      schema: {
+        tags: ['reviews'],
+        description: 'Add a new Review',
+        params: ReviewFromUserOrRestaurantParam,
+        response: {
+          200: GenericCreatedDTO,
+          400: ErrorResponse,
+        },
+      },
+      preHandler: [checkIsAuthenticated, checkIsReviewer],
+    },
+    delReview
   );
 };

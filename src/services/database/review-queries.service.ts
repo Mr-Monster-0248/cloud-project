@@ -1,5 +1,6 @@
 import { getConnection } from 'typeorm';
 import { Review } from '../../entities/Review';
+import { filterUndefinedProperty } from '../../utils/filterUndefinedProperty';
 
 interface ReviewQueryOptions {
   restaurantId?: number;
@@ -55,7 +56,7 @@ export async function getOneReviewById(
     .getRepository(Review)
     .createQueryBuilder('review')
     .leftJoinAndSelect('review.reviewer', 'user')
-    .where('review.reviewId = :id', { id: reviewId });
+    .where('review.reviewId = :reviewId', { reviewId: reviewId });
 
   // If some options were supplied
   if (options) {
@@ -99,6 +100,23 @@ export async function saveReview(review: Review): Promise<number> {
     .execute();
 
   return result.identifiers[0].reviewId as number;
+}
+
+/**
+ * Save a Review in the DB
+ * @param review The Review to save
+ * @returns The ID of the newly created Restaurant
+ */
+export async function updateReview(review: Review) {
+  const filteredReview = filterUndefinedProperty(review)
+  return await getConnection()
+    .createQueryBuilder()
+    .update(Review)
+    .set({
+      ...filteredReview
+    })
+    .where('reviewId = :reviewId', { reviewId: review.reviewId })
+    .execute();
 }
 
 /**
