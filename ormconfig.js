@@ -6,7 +6,7 @@ module.exports = {
   database: process.env.DATABASE_NAME,
   port: process.env.DATABASE_PORT,
   synchronize: false,
-  logging: false,
+  logging: process.env.NODE_ENV === 'development' ? ['query'] : false,
   entities: [
     process.env.NODE_ENV === 'development'
       ? 'src/entities/*.ts'
