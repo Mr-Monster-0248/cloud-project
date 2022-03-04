@@ -57,6 +57,27 @@ npm run migration:run
 npm run start
 ```
 
-## 📚 API Documentation
+## 🧪 How to run the tests
 
-This project uses Swagger to generate documentation for each endpoint. Once the app is running, the documentation is available at [this address](http://localhost:7000/docs) (`http://localhost:7000/docs`).
+This project comes with unit tests, which can be found in [the `tests` directory at the root of this project](./tests). These tests are written using [Jest](https://jestjs.io/).
+
+### Running the tests
+
+#### Without coverage
+
+To run the tests without coverage reports, open a terminal at the root of this project and run:
+
+```shell
+npm run test
+```
+
+#### With coverage
+
+To run the tests and generate a coverage report, open a terminal at the root of this project and run:
+
+```shell
+npm run test:coverage
+```
+
+The script will run the tests and generate a code coverage report (visible in the command line).
+An HTML version of the coverage report will also be available [here](./coverage/index.html) after the script's execution.

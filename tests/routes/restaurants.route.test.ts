@@ -5,7 +5,7 @@ import { Review } from '../../src/entities/Review';
 import { User } from '../../src/entities/User';
 import { RestaurantDTO } from '../../src/dto/restaurant.dto';
 
-describe('/restaurants', () => {
+describe('Route /restaurants', () => {
   const RESTO_BASEURL = '/restaurants';
 
   // # GET /restaurants
