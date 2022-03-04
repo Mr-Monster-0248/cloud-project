@@ -41,9 +41,9 @@ describe('Route /restaurants', () => {
             name: resto.name,
             description: resto.description || undefined,
             imgUrl: resto.imgUrl || undefined,
-            address: resto.address
+            address: resto.address,
+            owner: (resto.owner as User) || undefined,
           },
-          resto.owner as User
         );
 
         // Expecting every retrieved object to be a Restaurant object
