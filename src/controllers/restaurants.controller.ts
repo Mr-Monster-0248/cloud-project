@@ -3,13 +3,19 @@ import {
   getAllRestaurants,
   getOneRestaurantById,
   saveRestaurant,
+  updateRestaurant
 } from '../services/database/restaurant-queries.service';
-import { NewRestaurantDTO } from '../dto/restaurant.dto';
+import { NewRestaurantDTO, RestaurantIdParam } from '../dto/restaurant.dto';
 import { Restaurant } from '../entities/Restaurant';
 import { User } from '../entities/User';
+import { buildNewRestaurant } from '../utils/restaurant-helper';
 
-// GET /restaurants
-const getRestaurants: RouteHandler = (req, res) => {
+/**
+ * Route handler for __/restaurants__
+ * @param req request object
+ * @param res response object
+ */
+export const getRestaurants: RouteHandler = (req, res) => {
   getAllRestaurants()
     .then((restos) => {
       res.code(200).send(restos);
@@ -21,9 +27,11 @@ const getRestaurants: RouteHandler = (req, res) => {
 };
 
 // GET /restaurants/:id
-const getRestaurant: RouteHandler<{ Params: { id: number } }> = (req, res) => {
-  // TODO: try catch
-  getOneRestaurantById(req.params.id)
+export const getRestaurant: RouteHandler<{ Params: RestaurantIdParam }> = (
+  req,
+  res
+) => {
+  getOneRestaurantById(req.params.restaurantId)
     .then((resto) => {
       res.code(200).send(resto);
     })
@@ -33,19 +41,11 @@ const getRestaurant: RouteHandler<{ Params: { id: number } }> = (req, res) => {
     });
 };
 
-const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (req, res) => {
-  const currentUser = new User();
-  currentUser.userId = req.session.userId;
-
-  const newResto = new Restaurant(
-    {
-      name: req.body.name,
-      description: req.body.description,
-      address: req.body.address,
-      imgUrl: req.body.imgUrl,
-    },
-    currentUser
-  );
+export const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (
+  req,
+  res
+) => {
+  const newResto = buildNewRestaurant({...req.body}, req.session.userId)
 
   saveRestaurant(newResto)
     .then((restaurantId) => {
@@ -57,4 +57,18 @@ const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (req, res) => {
     });
 };
 
-export { getRestaurant, getRestaurants, addRestaurant };
+export const putRestaurant: RouteHandler<{
+  Params: RestaurantIdParam;
+  Body: NewRestaurantDTO;
+}> = (req, res) => {
+  const newResto = buildNewRestaurant({...req.body}, req.session.userId)
+
+  updateRestaurant(newResto, req.params.restaurantId)
+    .then(() => {
+      res.code(200).send();
+    })
+    .catch((err) => {
+      res.log.error(err);
+      res.code(400).send(new Error('Could not update restaurant'));
+    });
+};

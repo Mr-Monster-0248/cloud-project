@@ -28,5 +28,9 @@ export const NewRestaurantDTO = Type.Object(
   { description: 'Restaurant model', $id: 'NewRestaurantDTO' }
 );
 
+export const RestaurantIdParam = Type.Object({ restaurantId: Type.Integer() });
+
+
 export type RestaurantDTO = Static<typeof RestaurantDTO>;
 export type NewRestaurantDTO = Static<typeof NewRestaurantDTO>;
+export type RestaurantIdParam = Static<typeof RestaurantIdParam>;

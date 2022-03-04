@@ -11,8 +11,6 @@ export async function getAllRestaurants(): Promise<Restaurant[]> {
     .getRepository(Restaurant)
     .createQueryBuilder('restaurant')
     .leftJoinAndSelect('restaurant.owner', 'user')
-    // TODO: Decide whether to keep or not
-    // .leftJoinAndSelect('restaurant.reviews', 'review')
     .getMany();
 }
 
@@ -39,7 +37,7 @@ export async function getOneRestaurantById(
  * @param restaurant The Restaurant to save
  * @returns The ID of the newly created Restaurant
  */
-export async function saveRestaurant (restaurant: Restaurant): Promise<number> {
+export async function saveRestaurant(restaurant: Restaurant): Promise<number> {
   const result = await getConnection()
     .createQueryBuilder()
     .insert()
@@ -52,8 +50,32 @@ export async function saveRestaurant (restaurant: Restaurant): Promise<number> {
       owner: restaurant.owner,
     })
     .execute();
-  
+
   return result.identifiers[0].restaurantId;
+}
+
+/**
+ * Save a Restaurant in the DB
+ * @param restaurant The new Restaurant to save
+ * @param restaurantId The previous restaurant id
+ * @returns The ID of the newly created Restaurant
+ */
+export async function updateRestaurant(
+  restaurant: Restaurant,
+  restaurantId: number
+) {
+  await getConnection()
+    .createQueryBuilder()
+    .update(Restaurant)
+    .set({
+      name: restaurant.name,
+      description: restaurant.description,
+      address: restaurant.address,
+      imgUrl: restaurant.imgUrl,
+      owner: restaurant.owner,
+    })
+    .where('restaurantId = :id', { id: restaurantId })
+    .execute();
 }
 
 /**
