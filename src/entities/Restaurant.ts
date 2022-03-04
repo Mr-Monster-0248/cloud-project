@@ -8,7 +8,17 @@ import {
 } from 'typeorm';
 import { Review } from './Review';
 import { User } from './User';
-import { NewRestaurantDTO } from '../dto/restaurant.dto';
+
+interface RestaurantOptions {
+  restaurantId?: number;
+  name?: string;
+  description?: string;
+  address?: string;
+  imgUrl?: string;
+
+  owner?: User;
+  ownerId?: number;
+}
 
 @Entity()
 export class Restaurant {
@@ -34,11 +44,16 @@ export class Restaurant {
   @Column({ nullable: true })
   imgUrl: string;
 
-  constructor(restaurant?: Partial<NewRestaurantDTO>, owner?: User) {
-    this.name = restaurant?.name ?? this.name;
-    this.description = restaurant?.description ?? this.description;
-    this.address = restaurant?.address ?? this.address;
-    this.imgUrl = restaurant?.imgUrl ?? this.imgUrl;
-    this.owner = owner ?? this.owner;
+  constructor(options?: RestaurantOptions) {
+    this.name = options?.name ?? this.name;
+    this.description = options?.description ?? this.description;
+    this.address = options?.address ?? this.address;
+    this.imgUrl = options?.imgUrl ?? this.imgUrl;
+
+    if (options?.owner) {
+      this.owner = options.owner
+    } else if (options?.ownerId) {
+      this.owner = new User({userId: options.ownerId})
+    }
   }
 }

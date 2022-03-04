@@ -32,10 +32,11 @@ export const registerUser: RouteHandler<{ Body: AuthDto }> = (req, res) => {
     .update(req.body.password)
     .digest('hex');
 
-  const newUser = new User();
-  newUser.username = req.body.username;
-  newUser.password = hashedPassword;
-  newUser.token = uuidv4();
+  const newUser = new User({
+    username: req.body.username,
+    password: hashedPassword,
+    token: uuidv4(),
+  });
 
   saveUser(newUser)
     .then(() => {

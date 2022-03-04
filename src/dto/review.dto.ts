@@ -43,6 +43,8 @@ export const UpdateReviewDTO = Type.Object(
   { description: 'Model for a new restaurant review', $id: 'UpdateReviewDTO' }
 );
 
+export const ReviewIdParam = Type.Object({ reviewId: Type.Integer() });
+
 export type ReviewDTO = Static<typeof ReviewDTO>;
 export type ReviewResponseDTO = Static<typeof ReviewResponseDTO>;
 export type NewReviewDTO = Static<typeof NewReviewDTO>;

@@ -7,8 +7,6 @@ import {
 } from '../services/database/restaurant-queries.service';
 import { NewRestaurantDTO, RestaurantIdParam } from '../dto/restaurant.dto';
 import { Restaurant } from '../entities/Restaurant';
-import { User } from '../entities/User';
-import { buildNewRestaurant } from '../utils/restaurant-helper';
 
 /**
  * Route handler for __/restaurants__
@@ -45,7 +43,7 @@ export const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (
   req,
   res
 ) => {
-  const newResto = buildNewRestaurant({ ...req.body }, req.session.userId);
+  const newResto = new Restaurant({ ...req.body, ownerId: req.session.userId });
 
   saveRestaurant(newResto)
     .then((restaurantId) => {
@@ -62,7 +60,7 @@ export const putPatchRestaurant: RouteHandler<{
   Params: RestaurantIdParam;
   Body: NewRestaurantDTO | Partial<NewRestaurantDTO>;
 }> = (req, res) => {
-  const newResto = buildNewRestaurant({ ...req.body }, req.session.userId);
+  const newResto = new Restaurant({ ...req.body, ownerId: req.session.userId });
 
   updateRestaurant(newResto, req.params.restaurantId)
     .then(() => {

@@ -19,6 +19,6 @@ export const checkIsOwner = (
     })
     .catch((err) => {
       res.log.error(err);
-      res.code(404).send(new Error('Restaurant not fount'));
+      res.code(404).send(new Error('Restaurant not found'));
     });
 };

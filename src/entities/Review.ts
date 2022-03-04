@@ -7,7 +7,20 @@ import {
 } from 'typeorm';
 import { User } from './User';
 import { Restaurant } from './Restaurant';
-import { NewReviewDTO } from '../dto/review.dto';
+
+interface ReviewOptions {
+  reviewId?: number;
+  content?: string;
+  grade?: number;
+
+  // link to other tables
+  reviewer?: User;
+  restaurant?: Restaurant;
+
+  // as link can be entity with the foreign key
+  reviewerId?: number;
+  restaurantId?: number;
+}
 
 @Entity()
 @Check(`grade BETWEEN 0 AND 5`)
@@ -18,7 +31,9 @@ export class Review {
   @ManyToOne(() => User, (user) => user.reviews, { onDelete: 'CASCADE' })
   reviewer: User;
 
-  @ManyToOne(() => Restaurant, (restaurant) => restaurant.reviews, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Restaurant, (restaurant) => restaurant.reviews, {
+    onDelete: 'CASCADE',
+  })
   restaurant: Restaurant;
 
   @Column({ nullable: true })
@@ -27,10 +42,21 @@ export class Review {
   @Column()
   grade: number;
 
-  constructor(review?: Partial<NewReviewDTO>, reviewer?: User, restaurant?: Restaurant) {
-    this.content = review?.content ?? this.content;
-    this.grade = review?.grade ?? this.grade;
-    this.reviewer = reviewer ?? this.reviewer;
-    this.restaurant = restaurant ?? this.restaurant;
+  constructor(options?: ReviewOptions) {
+    this.reviewId = options?.reviewId ?? this.reviewId;
+    this.content = options?.content ?? this.content;
+    this.grade = options?.grade ?? this.grade;
+
+    if (options?.reviewer) {
+      this.reviewer = options.reviewer;
+    } else if (options?.reviewerId) {
+      this.reviewer = new User({ userId: options.reviewerId });
+    }
+
+    if (options?.restaurant) {
+      this.restaurant = options.restaurant;
+    } else if (options?.restaurantId) {
+      this.restaurant = new Restaurant(); // TODO add reviewerId
+    }
   }
 }

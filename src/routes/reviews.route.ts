@@ -1,9 +1,13 @@
-import { FastifyPluginAsync } from "fastify";
-import { addReview, getReview } from "../controllers/reviews.controller";
-import { GenericCreatedDTO } from "../dto/generic.dto";
-import { NewReviewDTO, ReviewResponseDTO } from "../dto/review.dto";
-import { ErrorResponse } from "../models/ErrorResponse";
-import { checkIsAuthenticated } from "../services/auth";
+import { FastifyPluginAsync } from 'fastify';
+import { addReview, getReview } from '../controllers/reviews.controller';
+import { GenericCreatedDTO } from '../dto/generic.dto';
+import {
+  NewReviewDTO,
+  ReviewIdParam,
+  ReviewResponseDTO,
+} from '../dto/review.dto';
+import { ErrorResponse } from '../models/ErrorResponse';
+import { checkIsAuthenticated } from '../services/auth';
 
 export const ReviewsRoute: FastifyPluginAsync = async (server) => {
   // GET /reviews/:reviewId
@@ -12,20 +16,12 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
     {
       schema: {
         description: 'Fetch a review by ID',
-        params: {
-          type: 'object',
-          properties: {
-            reviewId: {
-              type: 'string',
-              description: 'Review ID',
-            },
-          },
-        },
+        params: ReviewIdParam,
         response: {
           200: ReviewResponseDTO,
           404: ErrorResponse,
-        }
-      }
+        },
+      },
     },
     getReview
   );
@@ -40,10 +36,10 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
         response: {
           201: GenericCreatedDTO,
           400: ErrorResponse,
-        }
+        },
       },
       preHandler: checkIsAuthenticated,
     },
     addReview
-  )
-}
+  );
+};
