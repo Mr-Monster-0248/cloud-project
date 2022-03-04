@@ -19,8 +19,8 @@
   },
   "homepage": "https://github.com/cvbenur/node-rest-project#readme",
   "scripts": {
-    "test": "jest",
-    "test:coverage": "jest --coverage",
+    "test": "jest --detectOpenHandles",
+    "test:coverage": "jest  --detectOpenHandles --coverage",
     "build": "tsc",
     "start": "node .",
     "dev": "nodemon src/index.ts",

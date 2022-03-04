@@ -7,6 +7,7 @@ import {
 import { Restaurant } from '../src/entities/Restaurant';
 import { Review } from '../src/entities/Review';
 import { User } from '../src/entities/User';
+import { redis } from '../src/configs/redis.config';
 
 // Pre-testing setup
 beforeAll(async () => {
@@ -31,6 +32,9 @@ afterAll(async () => {
 
   // Shutdown server
   await fastify.close();
+
+  // Close Redis instance
+  redis.disconnect();
 });
 
 export { fastify };
