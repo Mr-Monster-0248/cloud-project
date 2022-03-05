@@ -56,3 +56,7 @@ npm run migration:run
 ```shell
 npm run start
 ```
+
+## 📚 API Documentation
+
+This project uses Swagger to generate documentation for each endpoint. Once the app is running, the documentation is available at [this address](http://localhost:7000/docs) (`http://localhost:7000/docs`).
