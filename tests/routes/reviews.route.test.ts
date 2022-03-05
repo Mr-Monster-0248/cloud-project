@@ -44,7 +44,7 @@ describe('Route /reviews', () => {
         url: buildURLObjectForTest(`${REVIEWS_BASEURL}/1`),
       });
 
-      // Expecting the request to generate a HTTP 200 response (route health check)
+      // Expecting the request to generate a HTTP 200 response (OK)
       expect(res.statusCode).toEqual(200);
     });
 

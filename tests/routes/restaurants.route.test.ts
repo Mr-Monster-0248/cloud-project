@@ -38,7 +38,7 @@ describe('Route /restaurants', () => {
         url: buildURLObjectForTest(RESTO_BASEURL),
       });
 
-      // Expecting the request to generate a HTTP 200 response (route health check)
+      // Expecting the request to generate a HTTP 200 response (OK)
       expect(res.statusCode).toEqual(200);
     });
 
@@ -85,7 +85,7 @@ describe('Route /restaurants', () => {
         url: buildURLObjectForTest(`${RESTO_BASEURL}/1`),
       });
 
-      // Expecting the request to generate a HTTP 200 response (route health check)
+      // Expecting the request to generate a HTTP 200 response (OK)
       expect(res.statusCode).toEqual(200);
     });
 
@@ -258,6 +258,49 @@ describe('Route /restaurants', () => {
     it('should correctly update the restaurant with id :id', async () => {
       const res = await fastify.inject({
         method: 'PATCH',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${RESTO_1.restaurantId}`),
+        payload: RESTO_1_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 200 response (OK)
+      expect(res.statusCode).toEqual(200);
+    });
+  });
+
+
+  // # DELETE /restaurants/:id
+  describe('# DELETE /restaurants/:id', () => {
+    it('should fail when not authenticated', async () => {
+      const res = await fastify.inject({
+        method: 'DELETE',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${RESTO_1.restaurantId}`),
+        payload: RESTO_1_DTO,
+      });
+
+      // Expecting a HTTP 401 response (Unauthorized)
+      expect(res.statusCode).toEqual(401);
+    });
+
+    it('should fail when the user is not the restaurant\'s owner', async () => {
+      const res = await fastify.inject({
+        method: 'DELETE',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${RESTO_1.restaurantId}`),
+        payload: RESTO_1_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_2}`,
+        },
+      });
+
+      // Expecting a HTTP 403 response (Forbidden)
+      expect(res.statusCode).toEqual(403);
+    });
+
+    it('should correctly delete the restaurant with id :id', async () => {
+      const res = await fastify.inject({
+        method: 'DELETE',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${RESTO_1.restaurantId}`),
         payload: RESTO_1_DTO,
         headers: {
