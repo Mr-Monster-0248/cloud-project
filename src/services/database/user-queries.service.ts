@@ -65,7 +65,7 @@ export async function getTokenByUsernameAndPassword(
  * Save a User in the DB
  * @param user The User to save
  */
-export async function saveUser (user: User): Promise<number> {
+export async function saveUser(user: User): Promise<number> {
   const result = await getConnection()
     .createQueryBuilder()
     .insert()
@@ -76,8 +76,24 @@ export async function saveUser (user: User): Promise<number> {
       token: user.token,
     })
     .execute();
-  
+
   return result.identifiers[0].userId as number;
+}
+
+/**
+ * Update a User in the DB
+ * @param userId the user Id of the updated user
+ * @param payload the data to change the user to
+ */
+export async function updateUser(userId: number, payload: Partial<User>) {
+  return await getConnection()
+    .createQueryBuilder()
+    .update(User)
+    .set({
+      ...payload,
+    })
+    .where('userId = :userId', { userId: userId })
+    .execute();
 }
 
 /**

@@ -1,13 +1,16 @@
-import { swaggerConfig, fastify, sessionOption } from './configs';
+import { fastify, sessionOption, swaggerConfig } from './configs';
 import fastifySwagger from 'fastify-swagger';
 import fastifySession from '@fastify/session';
 import fastifyCookie from 'fastify-cookie';
 import 'reflect-metadata';
 import dotenv from 'dotenv';
 import { createConnection, getConnectionOptions } from 'typeorm';
-import { RestaurantsRoute } from './routes/restaurants.route';
-import { AuthRoute } from './routes/auth.route';
-import { ReviewsRoute } from './routes/reviews.route';
+import {
+  AuthRoute,
+  RestaurantsRoute,
+  ReviewsRoute,
+  UsersRoute,
+} from './routes';
 
 dotenv.config();
 
@@ -19,6 +22,7 @@ fastify.register(fastifySession, sessionOption);
 // server plugins and routes
 fastify.register(AuthRoute);
 fastify.register(RestaurantsRoute);
+fastify.register(UsersRoute);
 fastify.register(ReviewsRoute);
 
 const start = async () => {
