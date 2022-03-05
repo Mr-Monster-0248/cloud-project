@@ -1,9 +1,9 @@
 import { FastifyPluginAsync } from 'fastify';
 import {
-  addRestaurantHandler,
+  addRestaurantHandler, deleteRestaurantHandler,
   getRestaurantHandler,
   getRestaurantsHandler,
-  putPatchRestaurant,
+  putPatchRestaurant
 } from '../controllers/restaurants.controller';
 import { GenericCreatedDTO } from '../dto/generic.dto';
 import {
@@ -110,6 +110,24 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
       preHandler: [checkIsAuthenticated, checkIsOwner],
     },
     putPatchRestaurant
+  );
+
+  // DELETE /restaurants/:id
+  server.delete<{ Params: RestaurantIdParam }>(
+    '/restaurants/:restaurantId',
+    {
+      schema: {
+        tags: ['restaurants'],
+        description: 'List one restaurants',
+        params: RestaurantIdParam,
+        response: {
+          200: RestaurantDTO,
+          404: ErrorResponse,
+        },
+      },
+      preHandler: [checkIsAuthenticated, checkIsOwner]
+    },
+    deleteRestaurantHandler
   );
 
   // reviews

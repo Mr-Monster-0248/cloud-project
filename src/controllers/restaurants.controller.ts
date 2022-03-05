@@ -1,9 +1,10 @@
 import { FastifyReply, FastifyRequest, RouteHandler } from 'fastify';
 import {
+  deleteRestaurant,
   getAllRestaurants,
   getOneRestaurantById,
   saveRestaurant,
-  updateRestaurant,
+  updateRestaurant
 } from '../services/database/restaurant-queries.service';
 import { NewRestaurantDTO, RestaurantIdParam } from '../dto/restaurant.dto';
 import { Restaurant } from '../entities/Restaurant';
@@ -72,5 +73,20 @@ export function putPatchRestaurant(
     .catch((err) => {
       res.log.error(err);
       res.code(400).send(new Error('Could not update restaurant'));
+    });
+}
+
+// DELETE /restaurants/:id
+export function deleteRestaurantHandler(
+  req: FastifyRequest<{ Params: RestaurantIdParam }>,
+  res: FastifyReply
+) {
+  deleteRestaurant(req.params.restaurantId)
+    .then(() => {
+      res.code(200).send();
+    })
+    .catch((err) => {
+      res.log.error(err);
+      res.code(404).send(new Error('Not Found'));
     });
 }
