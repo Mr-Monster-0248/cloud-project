@@ -7,6 +7,7 @@ export const AuthRoute: FastifyPluginAsync = async (server) => {
     '/auth',
     {
       schema: {
+        tags: ['auth'],
         description: 'Authenticate the user and return the coresponfing token',
         body: AuthDto,
         response: {
@@ -22,6 +23,7 @@ export const AuthRoute: FastifyPluginAsync = async (server) => {
     '/auth/register',
     {
       schema: {
+        tags: ['auth'],
         description: 'Create a new user and return the coresponfing token',
         body: AuthDto,
         response: {

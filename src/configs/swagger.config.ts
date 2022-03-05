@@ -23,6 +23,10 @@ export const swaggerConfig: SwaggerOptions = {
         name: 'users',
         description: "All the users' related endpoints",
       },
+      {
+        name: 'auth',
+        description: "All the authentication\'s related endpoints",
+      },
     ],
   },
 };

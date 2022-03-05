@@ -12,7 +12,7 @@ import {
 import { UpdateUserDto, UserDTO, UserIdParam } from '../dto/user.dto';
 import { checkIsSelf } from '../services/auth/check-is-self.service';
 
-export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
+export const UsersRoute: FastifyPluginAsync = async (server) => {
   // GET /users
   server.get(
     '/users',
