@@ -1,4 +1,4 @@
-import { RouteHandler } from 'fastify';
+import { FastifyReply, FastifyRequest, RouteHandler } from 'fastify';
 import {
   getAllRestaurants,
   getOneRestaurantById,
@@ -7,13 +7,14 @@ import {
 } from '../services/database/restaurant-queries.service';
 import { NewRestaurantDTO, RestaurantIdParam } from '../dto/restaurant.dto';
 import { Restaurant } from '../entities/Restaurant';
+import { filterUndefinedProperty } from '../utils/filterUndefinedProperty';
 
 /**
  * Route handler for __/restaurants__
  * @param req request object
  * @param res response object
  */
-export const getRestaurants: RouteHandler = (req, res) => {
+export function getRestaurantsHandler(req: FastifyRequest, res: FastifyReply) {
   getAllRestaurants()
     .then((restos) => {
       res.code(200).send(restos);
@@ -22,27 +23,27 @@ export const getRestaurants: RouteHandler = (req, res) => {
       res.log.error(err);
       res.code(500).send(new Error('Something went wrong'));
     });
-};
+}
 
 // GET /restaurants/:id
-export const getRestaurant: RouteHandler<{ Params: RestaurantIdParam }> = (
-  req,
-  res
-) => {
+export function getRestaurantHandler(
+  req: FastifyRequest<{ Params: RestaurantIdParam }>,
+  res: FastifyReply
+) {
   getOneRestaurantById(req.params.restaurantId)
     .then((resto) => {
       res.code(200).send(resto);
     })
     .catch((err) => {
       res.log.error(err);
-      res.code(404).send(new Error('Not Found')); // TODO: build custom Error
+      res.code(404).send(new Error('Not Found'));
     });
-};
+}
 
-export const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (
-  req,
-  res
-) => {
+export function addRestaurantHandler(
+  req: FastifyRequest<{ Body: NewRestaurantDTO }>,
+  res: FastifyReply
+) {
   const newResto = new Restaurant({ ...req.body, ownerId: req.session.userId });
 
   saveRestaurant(newResto)
@@ -53,16 +54,18 @@ export const addRestaurant: RouteHandler<{ Body: NewRestaurantDTO }> = (
       res.log.error(err);
       res.code(400).send(new Error('Could not create restaurant'));
     });
-};
+}
 
+export function putPatchRestaurant(
+  req: FastifyRequest<{
+    Params: RestaurantIdParam;
+    Body: Partial<NewRestaurantDTO>;
+  }>,
+  res: FastifyReply
+) {
+  const restaurantPayload = filterUndefinedProperty(req.body);
 
-export const putPatchRestaurant: RouteHandler<{
-  Params: RestaurantIdParam;
-  Body: NewRestaurantDTO | Partial<NewRestaurantDTO>;
-}> = (req, res) => {
-  const newResto = new Restaurant({ ...req.body, ownerId: req.session.userId });
-
-  updateRestaurant(newResto, req.params.restaurantId)
+  updateRestaurant(req.params.restaurantId, restaurantPayload)
     .then(() => {
       res.code(200).send();
     })
@@ -70,5 +73,4 @@ export const putPatchRestaurant: RouteHandler<{
       res.log.error(err);
       res.code(400).send(new Error('Could not update restaurant'));
     });
-};
-
+}

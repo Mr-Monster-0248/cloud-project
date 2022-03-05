@@ -1,8 +1,8 @@
 import { FastifyPluginAsync } from 'fastify';
 import {
-  addRestaurant,
-  getRestaurant,
-  getRestaurants,
+  addRestaurantHandler,
+  getRestaurantHandler,
+  getRestaurantsHandler,
   putPatchRestaurant,
 } from '../controllers/restaurants.controller';
 import { GenericCreatedDTO } from '../dto/generic.dto';
@@ -36,7 +36,7 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
         },
       },
     },
-    getRestaurants
+    getRestaurantsHandler
   );
 
   // GET /restaurants/:id
@@ -53,7 +53,7 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
         },
       },
     },
-    getRestaurant
+    getRestaurantHandler
   );
 
   // POST /restaurants
@@ -71,7 +71,7 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
       },
       preHandler: checkIsAuthenticated,
     },
-    addRestaurant
+    addRestaurantHandler
   );
 
   // PUT /restaurants

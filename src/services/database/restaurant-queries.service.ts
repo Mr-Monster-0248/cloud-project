@@ -57,20 +57,18 @@ export async function saveRestaurant(restaurant: Restaurant): Promise<number> {
 
 /**
  * Save a Restaurant in the DB
- * @param restaurant The new Restaurant to save
  * @param restaurantId The previous restaurant id
+ * @param payload The new Restaurant to save
  * @returns The ID of the newly created Restaurant
  */
 export async function updateRestaurant(
-  restaurant: Restaurant,
-  restaurantId: number
+  restaurantId: number,
+  payload: Partial<Restaurant>
 ) {
-  const filtered = filterUndefinedProperty(restaurant);
-  
   await getConnection()
     .createQueryBuilder()
     .update(Restaurant)
-    .set({ ...filtered })
+    .set({ ...payload })
     .where('restaurantId = :id', { id: restaurantId })
     .execute();
 }
