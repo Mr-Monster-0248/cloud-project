@@ -9,7 +9,7 @@ import {
   getUsersHandler,
   patchUserHandler,
 } from '../controllers/users.controller';
-import { UpdateUserDto, UserDTO, UserIdParam } from '../dto/user.dto';
+import { UpdateUserDTO, UserDTO, UserIdParam } from '../dto/user.dto';
 import { checkIsSelf } from '../services/auth/check-is-self.service';
 
 export const UsersRoute: FastifyPluginAsync = async (server) => {
@@ -50,15 +50,15 @@ export const UsersRoute: FastifyPluginAsync = async (server) => {
     getOneUserHandler
   );
 
-  // PATCH /users
-  server.patch<{ Params: UserIdParam; Body: UpdateUserDto }>(
+  // PATCH /users/:id
+  server.patch<{ Params: UserIdParam; Body: UpdateUserDTO }>(
     '/users/:userId',
     {
       schema: {
         tags: ['users'],
         description: 'Used to change the password or the username one users',
         params: UserIdParam,
-        body: UpdateUserDto,
+        body: UpdateUserDTO,
         response: {
           200: Type.Null(),
           400: ErrorResponse,
@@ -75,7 +75,7 @@ export const UsersRoute: FastifyPluginAsync = async (server) => {
     {
       schema: {
         tags: ['users'],
-        description: 'Delete one users',
+        description: 'Delete one user',
         params: UserIdParam,
         response: {
           200: Type.Null(),

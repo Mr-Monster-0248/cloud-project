@@ -5,7 +5,7 @@ import {
   getOneUserById,
   updateUser,
 } from '../services/database/user-queries.service';
-import { UpdateUserDto, UserIdParam } from '../dto/user.dto';
+import { UpdateUserDTO, UserIdParam } from '../dto/user.dto';
 import { filterUndefinedProperty } from '../utils/filterUndefinedProperty';
 
 export function getUsersHandler(req: FastifyRequest, res: FastifyReply) {
@@ -34,7 +34,7 @@ export function getOneUserHandler(
 }
 
 export function patchUserHandler(
-  req: FastifyRequest<{ Params: UserIdParam; Body: UpdateUserDto }>,
+  req: FastifyRequest<{ Params: UserIdParam; Body: UpdateUserDTO }>,
   res: FastifyReply
 ) {
   const userPayload = filterUndefinedProperty({
