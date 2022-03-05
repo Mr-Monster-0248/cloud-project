@@ -78,7 +78,7 @@ export const UsersRoute: FastifyPluginAsync = async (server) => {
         description: 'Delete one users',
         params: UserIdParam,
         response: {
-          200: UserDTO,
+          200: Type.Null(),
           404: ErrorResponse,
         },
       },

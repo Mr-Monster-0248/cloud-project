@@ -1,9 +1,10 @@
 import { FastifyPluginAsync } from 'fastify';
 import {
-  addReview, delReview,
-  getReview,
-  getReviews,
-  putPatchReview
+  addReviewHandler,
+  deleteReviewHandler,
+  getOneReviewHandler,
+  getReviewsHandler,
+  putPatchReview,
 } from '../controllers/reviews.controller';
 import { GenericCreatedDTO } from '../dto/generic.dto';
 import {
@@ -39,7 +40,7 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
         },
       },
     },
-    getReviews
+    getReviewsHandler
   );
 
   // GET /reviews/:reviewId
@@ -56,7 +57,7 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
         },
       },
     },
-    getReview
+    getOneReviewHandler
   );
 
   // POST /reviews
@@ -74,7 +75,7 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
       },
       preHandler: checkIsAuthenticated,
     },
-    addReview
+    addReviewHandler
   );
 
   // PATCH /reviews/:reviewId
@@ -138,6 +139,6 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
       },
       preHandler: [checkIsAuthenticated, checkIsReviewer],
     },
-    delReview
+    deleteReviewHandler
   );
 };

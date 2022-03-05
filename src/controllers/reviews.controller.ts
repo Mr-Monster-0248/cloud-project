@@ -1,22 +1,25 @@
-import { RouteHandler } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import {
   deleteReview,
   getAllReviews,
   getOneReviewById,
-  saveReview, updateReview
+  saveReview,
+  updateReview,
 } from '../services/database/review-queries.service';
 import {
   NewReviewDTO,
   ReviewFromUserOrRestaurantParam,
-  ReviewIdParam,
 } from '../dto/review.dto';
 import { Review } from '../entities/Review';
 import { RestaurantIdParam } from '../dto/restaurant.dto';
 import { UserIdParam } from '../dto/user.dto';
 
-export const getReviews: RouteHandler<{
-  Params: RestaurantIdParam | UserIdParam;
-}> = (req, res) => {
+export function getReviewsHandler(
+  req: FastifyRequest<{
+    Params: RestaurantIdParam | UserIdParam;
+  }>,
+  res: FastifyReply
+) {
   getAllReviews(req.params)
     .then((reviews) => {
       res.code(200).send(reviews);
@@ -25,12 +28,14 @@ export const getReviews: RouteHandler<{
       res.log.error(err);
       res.code(500).send(new Error('Something went wrong'));
     });
-};
+}
 
-export const getReview: RouteHandler<{
-  Params: ReviewFromUserOrRestaurantParam;
-}> = (req, res) => {
-  console.log(req.params);
+export function getOneReviewHandler(
+  req: FastifyRequest<{
+    Params: ReviewFromUserOrRestaurantParam;
+  }>,
+  res: FastifyReply
+) {
   getOneReviewById(req.params.reviewId, { ...req.params })
     .then((review) => {
       res.code(200).send(review);
@@ -39,9 +44,12 @@ export const getReview: RouteHandler<{
       res.log.error(err);
       res.code(404).send(new Error('Review not found'));
     });
-};
+}
 
-export const addReview: RouteHandler<{ Body: NewReviewDTO }> = (req, res) => {
+export function addReviewHandler(
+  req: FastifyRequest<{ Body: NewReviewDTO }>,
+  res: FastifyReply
+) {
   if (req.body.grade > 5 || req.body.grade < 0) {
     res.code(400).send(new Error('Grade has to be between 0 and 5'));
     return;
@@ -61,12 +69,15 @@ export const addReview: RouteHandler<{ Body: NewReviewDTO }> = (req, res) => {
       res.log.error(err);
       res.code(400).send(new Error('Could not create review'));
     });
-};
+}
 
-export const putPatchReview: RouteHandler<{
-  Params: ReviewFromUserOrRestaurantParam;
-  Body: NewReviewDTO | Partial<NewReviewDTO>;
-}> = (req, res) => {
+export function putPatchReview(
+  req: FastifyRequest<{
+    Params: ReviewFromUserOrRestaurantParam;
+    Body: NewReviewDTO | Partial<NewReviewDTO>;
+  }>,
+  res: FastifyReply
+) {
   if (req.body.grade && (req.body.grade > 5 || req.body.grade < 0)) {
     res.code(400).send(new Error('Grade has to be between 0 and 5'));
     return;
@@ -87,11 +98,14 @@ export const putPatchReview: RouteHandler<{
       res.log.error(err);
       res.code(400).send(new Error('Could not create review'));
     });
-};
+}
 
-export const delReview: RouteHandler<{
-  Params: ReviewFromUserOrRestaurantParam;
-}> = (req, res) => {
+export function deleteReviewHandler(
+  req: FastifyRequest<{
+    Params: ReviewFromUserOrRestaurantParam;
+  }>,
+  res: FastifyReply
+) {
   deleteReview(req.params.reviewId)
     .then(() => {
       res.code(200).send();
@@ -100,4 +114,4 @@ export const delReview: RouteHandler<{
       res.log.error(err);
       res.code(400).send(new Error('Could not delete review'));
     });
-};
+}
