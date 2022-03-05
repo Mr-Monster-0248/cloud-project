@@ -18,11 +18,11 @@
 
 | Method    | Sub-route    | Description                               |   Auth level required   | Done | Testing done |
 | --------- | ------------ | ----------------------------------------- | :---------------------: | :--: | :----------: |
-| GET       | `/`          | Get all reviews for the restaurant `:id`  |          None           |  ✔   |              |
-| POST      | `/`          | Adds a new review to the restaurant `:id` |       Registered        |  ✔   |              |
-| GET       | `/:reviewId` | Gets the review with id `:reviewId`       |          None           |  ✔   |              |
-| PUT/PATCH | `/:reviewId` | Updates the review with id `:reviewId`    | Reviewer of `:reviewId` |  ✔   |              |
-| DELETE    | `/:reviewId` | Deletes the review with id `:reviewId`    | Reviewer of `:reviewId` |  ✔   |              |
+| GET       | `/`          | Get all reviews for the restaurant `:id`  |          None           |  ✔   |      ✔       |
+| POST      | `/`          | Adds a new review to the restaurant `:id` |       Registered        |  ✔   |      ✔       |
+| GET       | `/:reviewId` | Gets the review with id `:reviewId`       |          None           |  ✔   |      ✔       |
+| PUT/PATCH | `/:reviewId` | Updates the review with id `:reviewId`    | Reviewer of `:reviewId` |  ✔   |      ✔       |
+| DELETE    | `/:reviewId` | Deletes the review with id `:reviewId`    | Reviewer of `:reviewId` |  ✔   |      ✔       |
 
 ### Reviews
 

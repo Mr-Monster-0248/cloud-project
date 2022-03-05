@@ -80,4 +80,4 @@ npm run test:coverage
 ```
 
 The script will run the tests and generate a code coverage report (visible in the command line).
-An HTML version of the coverage report will also be available [here](./coverage/index.html) after the script's execution.
+Since Jest has Istanbul built in, an HTML version of the coverage report will also be available [here](./coverage/index.html) after the script's execution.
