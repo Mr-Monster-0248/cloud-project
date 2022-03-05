@@ -1,5 +1,5 @@
-import { buildURLObjectForTest } from '../helpers';
 import { fastify } from '../setup';
+import { buildURLObjectForTest } from '../helpers';
 import { Restaurant } from '../../src/entities/Restaurant';
 import { Review } from '../../src/entities/Review';
 import { User } from '../../src/entities/User';

@@ -1,5 +1,5 @@
-import { buildURLObjectForTest } from '../helpers';
 import { fastify } from '../setup';
+import { buildURLObjectForTest } from '../helpers';
 import { Review } from '../../src/entities/Review';
 import { NewReviewDTO, ReviewDTO } from '../../src/dto/review.dto';
 

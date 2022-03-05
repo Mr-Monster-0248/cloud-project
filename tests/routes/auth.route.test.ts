@@ -1,5 +1,7 @@
-import { buildURLObjectForTest } from '../helpers';
 import { fastify } from '../setup';
+import { buildURLObjectForTest } from '../helpers';
+import { deleteUser, getOneUserByToken } from '../../src/services/database/user-queries.service';
+
 
 describe('Route /auth', () => {
 
@@ -51,6 +53,10 @@ describe('Route /auth', () => {
 
       // Expecting the returned token to exist
       expect(AUTH_TOKEN).not.toBe('');
+
+      // Removing the created user from the DB
+      const idToDelete = (await getOneUserByToken(AUTH_TOKEN)).userId;
+      await deleteUser(idToDelete);
     });
   });
 
