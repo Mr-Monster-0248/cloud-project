@@ -300,7 +300,7 @@ describe('Route /restaurants', () => {
       expect(res.statusCode).toEqual(401);
     });
 
-    it('should add a restaurant when authenticated', async () => {
+    it('should add a review when authenticated', async () => {
       const restaurantId = 1;
       
       const res = await fastify.inject({
@@ -348,6 +348,22 @@ describe('Route /restaurants', () => {
 
       // Expecting a HTTP 403 response (Forbidden)
       expect(res.statusCode).toEqual(403);
+    });
+
+    it('should fail with an invalid restaurant id', async () => {
+      const invalidId = -1;
+      
+      const res = await fastify.inject({
+        method: 'PUT',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${invalidId}`),
+        payload: RESTO_2_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 404 response (Not found)
+      expect(res.statusCode).toEqual(404);
     });
 
     it('should correctly update the restaurant with id :id', async () => {
@@ -402,6 +418,8 @@ describe('Route /restaurants', () => {
       expect(res.statusCode).toEqual(403);
     });
 
+    // TODO: should fail with an invalid review id
+
     it('should correctly update the review with id :reviewId', async () => {
       const res = await fastify.inject({
         method: 'PUT',
@@ -445,6 +463,22 @@ describe('Route /restaurants', () => {
       expect(res.statusCode).toEqual(403);
     });
 
+    it('should fail with an invalid restaurant id', async () => {
+      const invalidId = -1;
+      
+      const res = await fastify.inject({
+        method: 'PATCH',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${invalidId}`),
+        payload: RESTO_2_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 404 response (Not found)
+      expect(res.statusCode).toEqual(404);
+    });
+
     it('should correctly update the restaurant with id :id', async () => {
       const res = await fastify.inject({
         method: 'PATCH',
@@ -484,6 +518,21 @@ describe('Route /restaurants', () => {
 
       // Expecting a HTTP 403 response (Forbidden)
       expect(res.statusCode).toEqual(403);
+    });
+
+    it('should fail with an invalid restaurant id', async () => {
+      const invalidId = -1;
+      
+      const res = await fastify.inject({
+        method: 'DELETE',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${invalidId}`),
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 404 response (Not found)
+      expect(res.statusCode).toEqual(404);
     });
 
     it('should correctly delete the restaurant with id :id', async () => {
