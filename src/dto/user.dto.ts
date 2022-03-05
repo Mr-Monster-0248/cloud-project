@@ -9,7 +9,7 @@ export const UserDTO = Type.Object(
   {
     userId: Type.Integer(),
     username: Type.String(),
-    reviews: Type.Optional(Type.Ref(ReviewBaseDTO)),
+    reviews: Type.Optional(Type.Array(Type.Ref(ReviewBaseDTO))),
   },
   { description: 'User model', $id: 'UserDTO' }
 );
