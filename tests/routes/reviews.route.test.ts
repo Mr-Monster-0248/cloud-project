@@ -23,9 +23,19 @@ describe('Route /reviews', () => {
     restaurantId: 1,
   };
 
+  const GRADE_OF_6: NewReviewDTO = {
+    grade: 6,
+    restaurantId: 1,
+  };
+
+  const GRADE_OF_MINUS_ONE: NewReviewDTO = {
+    grade: 6,
+    restaurantId: 1,
+  };
+
   const BEARER_TOKEN_USER_1 = 'c8cd21dd-e114-4cdc-919c-01e84a83112f';
   const BEARER_TOKEN_USER_2 = '900eccd4-2eb7-4a49-9511-899ba4f076c1';
-
+  
   // # GET /reviews/:id
   describe('# GET /reviews/:id', () => {
     it('should request the `/reviews/:id` route', async () => {
@@ -101,6 +111,32 @@ describe('Route /reviews', () => {
       // Expecting a HTTP 201 response (Created)
       expect(res.statusCode).toEqual(201);
     });
+
+    it('should fail when adding a review with an invalid grade', async () => {
+      const res1 = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        payload: GRADE_OF_6,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      const res2 = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        payload: GRADE_OF_MINUS_ONE,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 400 response (Bad request)
+      expect(res1.statusCode).toEqual(400);
+
+      // Expecting a HTTP 400 response (Bad request)
+      expect(res2.statusCode).toEqual(400);
+    });
   });
 
 
@@ -144,6 +180,32 @@ describe('Route /reviews', () => {
       // Expecting a HTTP 200 response (OK)
       expect(res.statusCode).toEqual(200);
     });
+
+    it('should fail when adding a review with an invalid grade', async () => {
+      const res1 = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        payload: GRADE_OF_6,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      const res2 = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        payload: GRADE_OF_MINUS_ONE,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 400 response (Bad request)
+      expect(res1.statusCode).toEqual(400);
+
+      // Expecting a HTTP 400 response (Bad request)
+      expect(res2.statusCode).toEqual(400);
+    });
   });
 
 
@@ -186,6 +248,32 @@ describe('Route /reviews', () => {
 
       // Expecting a HTTP 200 response (OK)
       expect(res.statusCode).toEqual(200);
+    });
+
+    it('should fail when adding a review with an invalid grade', async () => {
+      const res1 = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        payload: GRADE_OF_6,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      const res2 = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        payload: GRADE_OF_MINUS_ONE,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 400 response (Bad request)
+      expect(res1.statusCode).toEqual(400);
+
+      // Expecting a HTTP 400 response (Bad request)
+      expect(res2.statusCode).toEqual(400);
     });
   });
 
