@@ -183,10 +183,10 @@ describe('Route /reviews', () => {
       expect(res.statusCode).toEqual(404);
     });
 
-    it('should fail when adding a review with an invalid grade', async () => {
+    it('should fail when updating a review with an invalid grade', async () => {
       const res1 = await fastify.inject({
-        method: 'POST',
-        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        method: 'PUT',
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${REVIEW_1.reviewId}`),
         payload: GRADE_OF_6,
         headers: {
           'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
@@ -194,8 +194,8 @@ describe('Route /reviews', () => {
       });
 
       const res2 = await fastify.inject({
-        method: 'POST',
-        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        method: 'PUT',
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${REVIEW_1.reviewId}`),
         payload: GRADE_OF_MINUS_ONE,
         headers: {
           'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
@@ -268,10 +268,10 @@ describe('Route /reviews', () => {
       expect(res.statusCode).toEqual(404);
     });
 
-    it('should fail when adding a review with an invalid grade', async () => {
+    it('should fail when updating a review with an invalid grade', async () => {
       const res1 = await fastify.inject({
-        method: 'POST',
-        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        method: 'PATCH',
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${REVIEW_1.reviewId}`),
         payload: GRADE_OF_6,
         headers: {
           'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
@@ -279,8 +279,8 @@ describe('Route /reviews', () => {
       });
 
       const res2 = await fastify.inject({
-        method: 'POST',
-        url: buildURLObjectForTest(REVIEWS_BASEURL),
+        method: 'PATCH',
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${REVIEW_1.reviewId}`),
         payload: GRADE_OF_MINUS_ONE,
         headers: {
           'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,

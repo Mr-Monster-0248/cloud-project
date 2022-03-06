@@ -49,11 +49,11 @@
 
 | Method | Sub-route    | Description                            |   Auth level required   | Done | Testing done |
 | ------ | ------------ | -------------------------------------- | :---------------------: | :--: | :----------: |
-| GET    | `/`          | Get all reviews for the user `:id`     |          None           |  ✔   |              |
-| POST   | `/`          | Adds a new review to the user `:id`    |   User with id `:id`    |  ✔   |              |
-| GET    | `/:reviewId` | Gets the review with id `:reviewId`    |          None           |  ✔   |              |
-| PUT    | `/:reviewId` | Updates the review with id `:reviewId` | Reviewer of `:reviewId` |  ✔   |              |
-| DELETE | `/:reviewId` | Deletes the review with id `:reviewId` | Reviewer of `:reviewId` |  ✔   |              |
+| GET    | `/`          | Get all reviews for the user `:id`     |          None           |  ✔   |      ✔       |
+| POST   | `/`          | Adds a new review to the user `:id`    |   User with id `:id`    |  ✔   |      ✔       |
+| GET    | `/:reviewId` | Gets the review with id `:reviewId`    |          None           |  ✔   |      ✔       |
+| PUT    | `/:reviewId` | Updates the review with id `:reviewId` | Reviewer of `:reviewId` |  ✔   |      ✔       |
+| DELETE | `/:reviewId` | Deletes the review with id `:reviewId` | Reviewer of `:reviewId` |  ✔   |      ✔       |
 
 ### Auth
 
