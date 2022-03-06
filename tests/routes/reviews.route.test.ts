@@ -167,18 +167,20 @@ describe('Route /reviews', () => {
       expect(res.statusCode).toEqual(403);
     });
 
-    it('should correctly update the review with id :id', async () => {
+    it('should 404 with an invalid id', async () => {
+      const invalidId = -1;
+
       const res = await fastify.inject({
         method: 'PUT',
-        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${REVIEW_1.reviewId}`),
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${invalidId}`),
         payload: REVIEW_2_DTO,
         headers: {
           'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
         },
       });
 
-      // Expecting a HTTP 200 response (OK)
-      expect(res.statusCode).toEqual(200);
+      // Expecting a HTTP 404 response (Not found)
+      expect(res.statusCode).toEqual(404);
     });
 
     it('should fail when adding a review with an invalid grade', async () => {
@@ -205,6 +207,20 @@ describe('Route /reviews', () => {
 
       // Expecting a HTTP 400 response (Bad request)
       expect(res2.statusCode).toEqual(400);
+    });
+
+    it('should correctly update the review with id :id', async () => {
+      const res = await fastify.inject({
+        method: 'PUT',
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${REVIEW_1.reviewId}`),
+        payload: REVIEW_2_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 200 response (OK)
+      expect(res.statusCode).toEqual(200);
     });
   });
 
@@ -236,18 +252,20 @@ describe('Route /reviews', () => {
       expect(res.statusCode).toEqual(403);
     });
 
-    it('should correctly update the review with id :id', async () => {
+    it('should fail for a review with an invalid id', async () => {
+      const invalidId = -1;
+
       const res = await fastify.inject({
         method: 'PATCH',
-        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${REVIEW_1.reviewId}`),
-        payload: REVIEW_1_DTO,
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${invalidId}`),
+        payload: REVIEW_2_DTO,
         headers: {
           'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
         },
       });
 
-      // Expecting a HTTP 200 response (OK)
-      expect(res.statusCode).toEqual(200);
+      // Expecting a HTTP 404 response (Not found)
+      expect(res.statusCode).toEqual(404);
     });
 
     it('should fail when adding a review with an invalid grade', async () => {
@@ -274,6 +292,20 @@ describe('Route /reviews', () => {
 
       // Expecting a HTTP 400 response (Bad request)
       expect(res2.statusCode).toEqual(400);
+    });
+
+    it('should correctly update the review with id :id', async () => {
+      const res = await fastify.inject({
+        method: 'PATCH',
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${REVIEW_1.reviewId}`),
+        payload: REVIEW_1_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 200 response (OK)
+      expect(res.statusCode).toEqual(200);
     });
   });
 
