@@ -6,10 +6,11 @@ import { User } from '../../src/entities/User';
 import { NewRestaurantDTO, RestaurantDTO } from '../../src/dto/restaurant.dto';
 import { ReviewResponseDTO, NewReviewDTO, UpdateReviewDTO } from '../../src/dto/review.dto';
 import { deleteReview, saveReview } from '../../src/services/database/review-queries.service';
+  
 
 describe('Route /restaurants', () => {
-  const RESTO_BASEURL = '/restaurants';
 
+  const RESTO_BASEURL = '/restaurants';
 
   const RESTO_1_DTO: NewRestaurantDTO = {
     name: 'Reso 2 test',
@@ -77,149 +78,8 @@ describe('Route /restaurants', () => {
   });
 
 
-  // # GET /restaurants/:id
-  describe('# GET /restaurants/:id', () => {
-    it('should request the `/restaurants/:id` route', async () => {
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/1`),
-      });
-
-      // Expecting the request to generate a HTTP 200 response (OK)
-      expect(res.statusCode).toEqual(200);
-    });
-
-    it('should return the correct restaurant', async () => {
-      const expected = 1;
-
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${expected}`),
-      });
-
-      // Parse response payload as RestaurantDTO object
-      const resto = JSON.parse(res.payload) as RestaurantDTO;
-
-      // Retrieve the restaurant ID from the response
-      const actual = resto.restaurantId;
-
-      // Expecting the returned restaurant ID to match the one provided
-      expect(actual).toEqual(expected);
-    });
-
-    it('should 404 when requesting a wrong id', async () => {
-      // Invalid restaurant ID
-      const expected = -1;
-
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${expected}`),
-      });
-
-      // Expecting a HTTP 404 response (Not found)
-      expect(res.statusCode).toEqual(404);
-    });
-  });
-
-
-  // # GET /restaurants/:id/reviews
-  describe('# GET /restaurants/:id/reviews', () => {
-    it('should request the `/restaurants/:id/reviews` route', async () => {
-      const restaurantId = 1;
-      
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
-      });
-
-      // Expecting the request to generate a HTTP 200 response (OK)
-      expect(res.statusCode).toEqual(200);
-    });
-
-    it('should return a list of reviews', async () => {
-      const restaurantId = 1;
-      
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
-      });
-
-      // Parse response payload as array of ReviewResponseDTO
-      const reviews = JSON.parse(res.payload) as ReviewResponseDTO[];
-
-
-      // Making sure that every object in the array passes the test
-      expect.assertions(reviews.length);
-
-      // Iterating over the array
-      reviews.forEach((review) => {
-        // Building a Review instance from the retrieved ReviewDTO
-        const actual = new Review(
-          {
-            reviewId: review.reviewId as number,
-            content: review.content || undefined,
-            grade: review.grade as number,
-            reviewer: (review.reviewer as User) || undefined,
-          },
-        );
-
-        // Expecting every retrieved object to be a Review object
-        expect(actual).toBeInstanceOf(Review);
-      });
-    });
-  });
-
-
-  // # GET /restaurants/:id/reviews/:reviewId
-  describe('# GET /restaurants/:id/reviews/:reviewId', () => {
-    it('should request the `/restaurants/:id/reviews/:reviewId` route', async () => {
-      const restaurantId = 1;
-      const reviewId = 1;
-      
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
-      });
-
-      // Expecting the request to generate a HTTP 200 response (OK)
-      expect(res.statusCode).toEqual(200);
-    });
-
-    it('should return the review with id :reviewId', async () => {
-      const restaurantId = 1;
-      const reviewId = 1;
-      
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
-      });
-
-      // Retrieve Review id
-      const actual = JSON.parse(res.payload).reviewId as number;
-
-      // Expecting every retrieved object to be a Review object
-      expect(actual).toEqual(reviewId);
-    });
-
-    it('should 404 when requesting a wrong id', async () => {
-      const restaurantId = 1;
-
-      // Invalid review ID
-      const expected = -1;
-
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${expected}`),
-      });
-
-      // Expecting a HTTP 404 response (Not found)
-      expect(res.statusCode).toEqual(404);
-    });
-  });
-
-
   // # POST /restaurants
-  describe('# POST /restaurants', () => {
+  describe('# # POST /restaurants', () => {
     it('should fail when not authenticated', async () => {
       const res = await fastify.inject({
         method: 'POST',
@@ -279,46 +139,47 @@ describe('Route /restaurants', () => {
   });
 
 
-  // # POST /restaurants/:id/reviews
-  describe('# POST /restaurants/:id/reviews', () => {
-    const REVIEW_DTO: NewReviewDTO = {
-      content: 'is pretty okayishly good',
-      grade: 3,
-      restaurantId: 1,
-    };
-
-    it('should fail when not authenticated', async () => {
-      const restaurantId = 1;
-      
+  // # GET /restaurants/:id
+  describe('# GET /restaurants/:id', () => {
+    it('should request the `/restaurants/:id` route', async () => {
       const res = await fastify.inject({
-        method: 'POST',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
-        payload: REVIEW_DTO,
+        method: 'GET',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/1`),
       });
 
-      // Expecting a HTTP 401 response (Unauthorized)
-      expect(res.statusCode).toEqual(401);
+      // Expecting the request to generate a HTTP 200 response (OK)
+      expect(res.statusCode).toEqual(200);
     });
 
-    it('should add a review when authenticated', async () => {
-      const restaurantId = 1;
-      
+    it('should return the correct restaurant', async () => {
+      const expected = 1;
+
       const res = await fastify.inject({
-        method: 'POST',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
-        payload: REVIEW_DTO,
-        headers: {
-          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
-        },
+        method: 'GET',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${expected}`),
       });
 
-      const reviewId = JSON.parse(res.payload).id as number;
+      // Parse response payload as RestaurantDTO object
+      const resto = JSON.parse(res.payload) as RestaurantDTO;
 
-      // Expecting a HTTP 201 response (Created)
-      expect(res.statusCode).toEqual(201);
+      // Retrieve the restaurant ID from the response
+      const actual = resto.restaurantId;
 
-      // Remove created review from DB
-      await deleteReview(reviewId);
+      // Expecting the returned restaurant ID to match the one provided
+      expect(actual).toEqual(expected);
+    });
+
+    it('should 404 when requesting a wrong id', async () => {
+      // Invalid restaurant ID
+      const expected = -1;
+
+      const res = await fastify.inject({
+        method: 'GET',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${expected}`),
+      });
+
+      // Expecting a HTTP 404 response (Not found)
+      expect(res.statusCode).toEqual(404);
     });
   });
 
@@ -371,60 +232,6 @@ describe('Route /restaurants', () => {
         method: 'PUT',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${RESTO_1.restaurantId}`),
         payload: RESTO_2_DTO,
-        headers: {
-          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
-        },
-      });
-
-      // Expecting a HTTP 200 response (OK)
-      expect(res.statusCode).toEqual(200);
-    });
-  });
-
-
-  // # PUT/PATCH /restaurants/:id/reviews/:reviewId
-  describe('# PUT/PATCH /restaurants/:id/reviews/:reviewId', () => {
-    const restaurantId = 1;
-    const reviewId = 1;
-
-    const REVIEW_UPDATE_DTO: NewReviewDTO = {
-      content: 'is pretty okayishly good',
-      grade: 3,
-      restaurantId: restaurantId,
-    };
-    
-    it('should fail when not authenticated', async () => {
-      const res = await fastify.inject({
-        method: 'PUT',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
-        payload: REVIEW_UPDATE_DTO,
-      });
-
-      // Expecting a HTTP 401 response (Unauthorized)
-      expect(res.statusCode).toEqual(401);
-    });
-
-    it('should fail when the user is not the review\'s reviewer', async () => {
-      const res = await fastify.inject({
-        method: 'PUT',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
-        payload: REVIEW_UPDATE_DTO,
-        headers: {
-          'Authorization': `Bearer ${BEARER_TOKEN_USER_2}`,
-        },
-      });
-
-      // Expecting a HTTP 403 response (Forbidden)
-      expect(res.statusCode).toEqual(403);
-    });
-
-    // TODO: should fail with an invalid review id
-
-    it('should correctly update the review with id :reviewId', async () => {
-      const res = await fastify.inject({
-        method: 'PUT',
-        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
-        payload: REVIEW_UPDATE_DTO,
         headers: {
           'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
         },
@@ -539,6 +346,200 @@ describe('Route /restaurants', () => {
       const res = await fastify.inject({
         method: 'DELETE',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${RESTO_1.restaurantId}`),
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 200 response (OK)
+      expect(res.statusCode).toEqual(200);
+    });
+  });
+
+
+  // # GET /restaurants/:id/reviews
+  describe('# GET /restaurants/:id/reviews', () => {
+    it('should request the `/restaurants/:id/reviews` route', async () => {
+      const restaurantId = 1;
+      
+      const res = await fastify.inject({
+        method: 'GET',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
+      });
+
+      // Expecting the request to generate a HTTP 200 response (OK)
+      expect(res.statusCode).toEqual(200);
+    });
+
+    it('should return a list of reviews', async () => {
+      const restaurantId = 1;
+      
+      const res = await fastify.inject({
+        method: 'GET',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
+      });
+
+      // Parse response payload as array of ReviewResponseDTO
+      const reviews = JSON.parse(res.payload) as ReviewResponseDTO[];
+
+
+      // Making sure that every object in the array passes the test
+      expect.assertions(reviews.length);
+
+      // Iterating over the array
+      reviews.forEach((review) => {
+        // Building a Review instance from the retrieved ReviewDTO
+        const actual = new Review(
+          {
+            reviewId: review.reviewId as number,
+            content: review.content || undefined,
+            grade: review.grade as number,
+            reviewer: (review.reviewer as User) || undefined,
+          },
+        );
+
+        // Expecting every retrieved object to be a Review object
+        expect(actual).toBeInstanceOf(Review);
+      });
+    });
+  });
+
+
+  // # POST /restaurants/:id/reviews
+  describe('# POST /restaurants/:id/reviews', () => {
+    const REVIEW_DTO: NewReviewDTO = {
+      content: 'is pretty okayishly good',
+      grade: 3,
+      restaurantId: 1,
+    };
+
+    it('should fail when not authenticated', async () => {
+      const restaurantId = 1;
+      
+      const res = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
+        payload: REVIEW_DTO,
+      });
+
+      // Expecting a HTTP 401 response (Unauthorized)
+      expect(res.statusCode).toEqual(401);
+    });
+
+    it('should add a review when authenticated', async () => {
+      const restaurantId = 1;
+      
+      const res = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
+        payload: REVIEW_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      const reviewId = JSON.parse(res.payload).id as number;
+
+      // Expecting a HTTP 201 response (Created)
+      expect(res.statusCode).toEqual(201);
+
+      // Remove created review from DB
+      await deleteReview(reviewId);
+    });
+  });
+
+
+  // GET /restaurants/:id/reviews/:reviewId
+  describe('# GET /restaurants/:id/reviews/:reviewId', () => {
+    it('should request the `/restaurants/:id/reviews/:reviewId` route', async () => {
+      const restaurantId = 1;
+      const reviewId = 1;
+      
+      const res = await fastify.inject({
+        method: 'GET',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
+      });
+
+      // Expecting the request to generate a HTTP 200 response (OK)
+      expect(res.statusCode).toEqual(200);
+    });
+
+    it('should return the review with id :reviewId', async () => {
+      const restaurantId = 1;
+      const reviewId = 1;
+      
+      const res = await fastify.inject({
+        method: 'GET',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
+      });
+
+      // Retrieve Review id
+      const actual = JSON.parse(res.payload).reviewId as number;
+
+      // Expecting every retrieved object to be a Review object
+      expect(actual).toEqual(reviewId);
+    });
+
+    it('should 404 when requesting a wrong id', async () => {
+      const restaurantId = 1;
+
+      // Invalid review ID
+      const expected = -1;
+
+      const res = await fastify.inject({
+        method: 'GET',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${expected}`),
+      });
+
+      // Expecting a HTTP 404 response (Not found)
+      expect(res.statusCode).toEqual(404);
+    });
+  });
+
+
+  // # PUT/PATCH /restaurants/:id/reviews/:reviewId
+  describe('# PUT/PATCH /restaurants/:id/reviews/:reviewId', () => {
+    const restaurantId = 1;
+    const reviewId = 1;
+
+    const REVIEW_UPDATE_DTO: NewReviewDTO = {
+      content: 'is pretty okayishly good',
+      grade: 3,
+      restaurantId: restaurantId,
+    };
+    
+    it('should fail when not authenticated', async () => {
+      const res = await fastify.inject({
+        method: 'PUT',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
+        payload: REVIEW_UPDATE_DTO,
+      });
+
+      // Expecting a HTTP 401 response (Unauthorized)
+      expect(res.statusCode).toEqual(401);
+    });
+
+    it('should fail when the user is not the review\'s reviewer', async () => {
+      const res = await fastify.inject({
+        method: 'PUT',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
+        payload: REVIEW_UPDATE_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_2}`,
+        },
+      });
+
+      // Expecting a HTTP 403 response (Forbidden)
+      expect(res.statusCode).toEqual(403);
+    });
+
+    // TODO: should fail with an invalid review id
+
+    it('should correctly update the review with id :reviewId', async () => {
+      const res = await fastify.inject({
+        method: 'PUT',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
+        payload: REVIEW_UPDATE_DTO,
         headers: {
           'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
         },

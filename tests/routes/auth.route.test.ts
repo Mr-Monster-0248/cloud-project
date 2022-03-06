@@ -22,7 +22,37 @@ describe('Route /auth', () => {
     password: 'azerty',
   };
 
-  let AUTH_TOKEN = '';
+
+  // # POST /auth
+  describe('# POST /auth', () => {
+    it('should fail with wrong credentials', async () => {
+      const res = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(`${AUTH_BASEURL}`),
+        payload: WRONG_CREDENTIALS,
+      });
+
+      // Expecting a HTTP 403 response (Created)
+      expect(res.statusCode).toEqual(403);
+    });
+
+    it('should return an existing user\'s token', async () => {
+      const res = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(`${AUTH_BASEURL}`),
+        payload: EXISTING_USER_DTO,
+      });
+
+      // Parse response payload as AuthResponseDTO object
+      const AUTH_TOKEN = JSON.parse(res.payload).token as string;
+
+      // Expecting a HTTP 200 response (OK)
+      expect(res.statusCode).toEqual(200);
+
+      // Expecting the returned token to exist
+      expect(AUTH_TOKEN).not.toBe('');
+    });
+  });
 
 
   // # POST /auth
@@ -46,7 +76,7 @@ describe('Route /auth', () => {
       });
 
       // Parse response payload as AuthResponseDTO object
-      AUTH_TOKEN = JSON.parse(res.payload).token as string;
+      const AUTH_TOKEN = JSON.parse(res.payload).token as string;
 
       // Expecting a HTTP 201 response (Created)
       expect(res.statusCode).toEqual(201);
@@ -57,35 +87,6 @@ describe('Route /auth', () => {
       // Removing the created user from the DB
       const idToDelete = (await getOneUserByToken(AUTH_TOKEN)).userId;
       await deleteUser(idToDelete);
-    });
-  });
-
-
-  // # POST /auth
-  describe('# POST /auth', () => {
-    it('should fail with wrong credentials', async () => {
-      const res = await fastify.inject({
-        method: 'POST',
-        url: buildURLObjectForTest(`${AUTH_BASEURL}`),
-        payload: WRONG_CREDENTIALS,
-      });
-
-      // Expecting a HTTP 403 response (Created)
-      expect(res.statusCode).toEqual(403);
-    });
-
-    it('should return an existing user\'s token', async () => {
-      const res = await fastify.inject({
-        method: 'POST',
-        url: buildURLObjectForTest(`${AUTH_BASEURL}`),
-        payload: EXISTING_USER_DTO,
-      });
-
-      // Expecting a HTTP 200 response (OK)
-      expect(res.statusCode).toEqual(200);
-
-      // Expecting the returned token to exist
-      expect(AUTH_TOKEN).not.toBe('');
     });
   });
 });

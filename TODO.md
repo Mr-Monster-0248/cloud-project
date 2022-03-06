@@ -79,9 +79,9 @@
 
 ## Unit testing
 
-- [ ] all routes (mock services ? + inject http)
-- [ ] all services (mock database queries ?)
-- [ ] authentication (mock database queries ?)
+- [x] all routes (mock services ? + inject http)
+- [x] all services (mock database queries ?)
+- [x] authentication (mock database queries ?)
 - [ ] utility functions
 
 ## Response code handling

@@ -35,52 +35,6 @@ describe('Route /reviews', () => {
 
   const BEARER_TOKEN_USER_1 = 'c8cd21dd-e114-4cdc-919c-01e84a83112f';
   const BEARER_TOKEN_USER_2 = '900eccd4-2eb7-4a49-9511-899ba4f076c1';
-  
-  // # GET /reviews/:id
-  describe('# GET /reviews/:id', () => {
-    it('should request the `/reviews/:id` route', async () => {
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/1`),
-      });
-
-      // Expecting the request to generate a HTTP 200 response (OK)
-      expect(res.statusCode).toEqual(200);
-    });
-
-    it('should return the correct review', async () => {
-      const expected = 1;
-
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${expected}`),
-      });
-
-      // Parse response payload as RestaurantDTO object
-      const review = JSON.parse(res.payload) as ReviewDTO;
-
-      // Retrieve the restaurant ID from the response
-      const actual = review.reviewId;
-
-      // Expecting the returned restaurant ID to match the one provided
-      expect(actual).toEqual(expected);
-    });
-
-    it('should 404 when requesting a wrong id', async () => {
-      // Invalid restaurant ID
-      const requestedID = -1;
-
-      const res = await fastify.inject({
-        method: 'GET',
-        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${requestedID}`),
-      });
-
-      // Expecting a HTTP 404 response (Not found)
-      expect(res.statusCode).toEqual(404);
-    });
-
-    // TODO: test with unexpected params/query
-  });
 
 
   // # POST /reviews
@@ -137,6 +91,53 @@ describe('Route /reviews', () => {
       // Expecting a HTTP 400 response (Bad request)
       expect(res2.statusCode).toEqual(400);
     });
+  });
+
+  
+  // # GET /reviews/:reviewId
+  describe('# GET /reviews/:reviewId', () => {
+    it('should request the `/reviews/:reviewId` route', async () => {
+      const res = await fastify.inject({
+        method: 'GET',
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/1`),
+      });
+
+      // Expecting the request to generate a HTTP 200 response (OK)
+      expect(res.statusCode).toEqual(200);
+    });
+
+    it('should return the correct review', async () => {
+      const expected = 1;
+
+      const res = await fastify.inject({
+        method: 'GET',
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${expected}`),
+      });
+
+      // Parse response payload as RestaurantDTO object
+      const review = JSON.parse(res.payload) as ReviewDTO;
+
+      // Retrieve the restaurant ID from the response
+      const actual = review.reviewId;
+
+      // Expecting the returned restaurant ID to match the one provided
+      expect(actual).toEqual(expected);
+    });
+
+    it('should 404 when requesting a wrong id', async () => {
+      // Invalid restaurant ID
+      const requestedID = -1;
+
+      const res = await fastify.inject({
+        method: 'GET',
+        url: buildURLObjectForTest(`${REVIEWS_BASEURL}/${requestedID}`),
+      });
+
+      // Expecting a HTTP 404 response (Not found)
+      expect(res.statusCode).toEqual(404);
+    });
+
+    // TODO: test with unexpected params/query
   });
 
 
