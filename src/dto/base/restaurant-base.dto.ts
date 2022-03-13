@@ -11,7 +11,7 @@ export const RestaurantBaseDTO = Type.Object(
     address: Type.String(),
     imgUrl: Nullable(Type.String()),
   },
-  { description: 'Restaurant model', $id: 'RestaurantBaseDTO' }
+  { description: 'Base for the restaurant model with core elements', $id: 'RestaurantBaseDTO' }
 );
 
 export type RestaurantBaseDTO = Static<typeof RestaurantBaseDTO>;
