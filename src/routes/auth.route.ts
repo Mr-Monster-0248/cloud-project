@@ -8,11 +8,18 @@ export const AuthRoute: FastifyPluginAsync = async (server) => {
     {
       schema: {
         tags: ['auth'],
-        description: 'Authenticate the user and return the coresponfing token',
+        description: 'Authenticate the user and return the corresponding token',
         body: AuthDto,
         response: {
           200: AuthResponseDto,
-          // TODO: add 403 error,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
         },
       },
     },
@@ -24,11 +31,18 @@ export const AuthRoute: FastifyPluginAsync = async (server) => {
     {
       schema: {
         tags: ['auth'],
-        description: 'Create a new user and return the coresponfing token',
+        description: 'Create a new user and return the corresponding token',
         body: AuthDto,
         response: {
           200: AuthResponseDto,
-          // TODO: add 403 error,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
         },
       },
     },
