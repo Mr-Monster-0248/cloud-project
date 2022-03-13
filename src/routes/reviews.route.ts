@@ -116,7 +116,7 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
     putPatchReview
   );
 
-  // PATCH /reviews/:reviewId
+  // PUT /reviews/:reviewId
   server.put<{
     Params: ReviewFromUserOrRestaurantParam;
     Body: NewReviewDTO;

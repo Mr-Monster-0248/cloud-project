@@ -25,9 +25,9 @@ export type UserIdParam = Static<typeof UserIdParam>;
 /**
  * User Update DTO
  */
-export const UpdateUserDto = Type.Object({
+export const UpdateUserDTO = Type.Object({
   username: Type.Optional(Type.String()),
   password: Type.Optional(Type.String()),
 });
 
-export type UpdateUserDto = Static<typeof UpdateUserDto>;
+export type UpdateUserDTO = Static<typeof UpdateUserDTO>;

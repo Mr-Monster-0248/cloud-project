@@ -98,7 +98,7 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
     addRestaurantHandler
   );
 
-  // PUT /restaurants
+  // PUT /restaurants/:id
   server.put<{ Params: RestaurantIdParam; Body: NewRestaurantDTO }>(
     '/restaurants/:restaurantId',
     {
@@ -125,7 +125,7 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
     putPatchRestaurant
   );
 
-  // PUT /restaurants
+  // PATCH /restaurants/:id
   server.patch<{ Params: RestaurantIdParam; Body: Partial<NewRestaurantDTO> }>(
     '/restaurants/:restaurantId',
     {

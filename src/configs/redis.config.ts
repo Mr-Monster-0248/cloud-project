@@ -9,7 +9,7 @@ const redisConfig: RedisOptions = {
   password: process.env.REDIS_HOST ?? 'redis_pass',
 };
 
-const redis = new Redis(redisConfig);
+export const redis = new Redis(redisConfig);
 
 const RedisStore = connectRedis(fastifySession as any);
 
