@@ -1,35 +1,45 @@
-import { fastify } from 'fastify';
-import { config } from 'dotenv';
+import { fastify, sessionOption, swaggerConfig } from './configs';
+import fastifySwagger from 'fastify-swagger';
+import fastifySession from '@fastify/session';
+import fastifyCookie from 'fastify-cookie';
+import 'reflect-metadata';
+import dotenv from 'dotenv';
+import { createConnection, getConnectionOptions } from 'typeorm';
+import {
+  AuthRoute,
+  RestaurantsRoute,
+  ReviewsRoute,
+  UsersRoute,
+} from './routes';
 
-config();
+dotenv.config();
 
-const Port = process.env.PORT || 7000;
-const environment = process.env.ENVIRONMENT || 'development';
-// const uri = process.env.MONGODB_URI || "mongodb://localhost:27017/blogs";
+// server configurations
+fastify.register(fastifySwagger, swaggerConfig);
+fastify.register(fastifyCookie);
+fastify.register(fastifySession, sessionOption);
 
-const server = fastify({
-  logger: {
-    level: 'info',
-    file: environment === 'development' ? undefined : './logs/server.log',
-    prettyPrint:
-      environment === 'development'
-        ? {
-            translateTime: 'HH:MM:ss Z',
-            ignore: 'pid,hostname',
-          }
-        : false,
-  },
-});
-
-// register plugin below:
+// server plugins and routes
+fastify.register(AuthRoute);
+fastify.register(RestaurantsRoute);
+fastify.register(UsersRoute);
+fastify.register(ReviewsRoute);
 
 const start = async () => {
   try {
-    await server.listen(Port);
-    console.log('Server started successfully');
+    // Setting up DB connection
+    const connectionOptions = await getConnectionOptions();
+    const connection = await createConnection(connectionOptions);
+    fastify.log.info('Database connected: ' + connection.name);
+
+    await fastify.listen(process.env.PORT || 7000);
+    fastify.log.info('Server started successfully');
   } catch (err) {
-    server.log.error(err);
+    fastify.log.error(err);
     process.exit(1);
   }
 };
+
 start();
+
+export { fastify };
