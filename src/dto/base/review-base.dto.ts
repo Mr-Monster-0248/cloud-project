@@ -6,7 +6,10 @@ export const ReviewBaseDTO = Type.Object(
     content: Type.String(),
     grade: Type.Integer(),
   },
-  { description: 'Model for the base of the restaurant review with core data', $id: 'ReviewBaseDTO' }
+  {
+    description: 'Model for the base of the restaurant review with core data',
+    $id: 'ReviewBaseDTO',
+  }
 );
 
 export type ReviewBaseDTO = Static<typeof ReviewBaseDTO>;
