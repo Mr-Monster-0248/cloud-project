@@ -70,6 +70,14 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
         body: NewReviewDTO,
         response: {
           201: GenericCreatedDTO,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
           400: ErrorResponse,
         },
       },
@@ -93,6 +101,14 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
         response: {
           200: GenericCreatedDTO,
           400: ErrorResponse,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
         },
       },
       preHandler: [checkIsAuthenticated, checkIsReviewer],
@@ -115,6 +131,14 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
         response: {
           200: GenericCreatedDTO,
           400: ErrorResponse,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
         },
       },
       preHandler: [checkIsAuthenticated, checkIsReviewer],
@@ -135,6 +159,14 @@ export const ReviewsRoute: FastifyPluginAsync = async (server) => {
         response: {
           200: GenericCreatedDTO,
           400: ErrorResponse,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
         },
       },
       preHandler: [checkIsAuthenticated, checkIsReviewer],

@@ -32,6 +32,14 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
             type: 'array',
             items: RestaurantDTO,
           },
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
           404: ErrorResponse,
         },
       },
@@ -49,6 +57,14 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
         params: RestaurantIdParam,
         response: {
           200: RestaurantDTO,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
           404: ErrorResponse,
         },
       },
@@ -67,6 +83,14 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
         response: {
           201: GenericCreatedDTO,
           400: ErrorResponse,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
         },
       },
       preHandler: checkIsAuthenticated,
@@ -86,6 +110,14 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
         response: {
           200: Type.Null(),
           400: ErrorResponse,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
         },
       },
       preHandler: [checkIsAuthenticated, checkIsOwner],
@@ -105,6 +137,14 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
         response: {
           200: Type.Null(),
           400: ErrorResponse,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
         },
       },
       preHandler: [checkIsAuthenticated, checkIsOwner],
@@ -123,6 +163,14 @@ export const RestaurantsRoute: FastifyPluginAsync = async (server) => {
         response: {
           200: RestaurantDTO,
           404: ErrorResponse,
+          401: {
+            description: 'Unauthorized Access',
+            type: 'null',
+          },
+          403: {
+            description: 'Forbidden Access',
+            type: 'null',
+          },
         },
       },
       preHandler: [checkIsAuthenticated, checkIsOwner]
