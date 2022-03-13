@@ -2,7 +2,7 @@ import fs from 'fs';
 
 export function checkLogPath(): string | undefined {
   if (process.env.NODE_ENV === 'production') {
-    const logDir = __dirname + '/logs';
+    const logDir = process.cwd() + '/logs';
     const logPath = `${logDir}/${process.env.LOG_FILE_NAME || 'server.log'}`;
 
     // check for logs folder

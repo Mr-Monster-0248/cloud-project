@@ -13,11 +13,12 @@ import { AuthDto, AuthResponseDto } from '../dto/auth.dto';
 config();
 
 const environment = process.env.NODE_ENV || 'development';
+const logpath = checkLogPath();
 
 const serverOptions: FastifyServerOptions = {
   logger: {
     level: 'info',
-    file: checkLogPath(),
+    file: logpath,
     prettyPrint:
       environment === 'development'
         ? {
