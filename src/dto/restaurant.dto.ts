@@ -3,8 +3,6 @@ import { Nullable } from '../utils/nullable';
 import { ReviewBaseDTO } from './base/review-base.dto';
 import { UserBaseDTO } from './base/user-base.dto';
 
-// TODO: change descriptions
-
 export const RestaurantDTO = Type.Object(
   {
     restaurantId: Type.Integer(),
@@ -15,7 +13,7 @@ export const RestaurantDTO = Type.Object(
     owner: Type.Ref(UserBaseDTO),
     reviews: Type.Optional(Type.Array(Type.Ref(ReviewBaseDTO))),
   },
-  { description: 'Restaurant model', $id: 'RestaurantDTO' }
+  { description: 'Standard restaurant model', $id: 'RestaurantDTO' }
 );
 
 export const NewRestaurantDTO = Type.Object(
@@ -25,11 +23,11 @@ export const NewRestaurantDTO = Type.Object(
     address: Type.String(),
     imgUrl: Type.Optional(Type.String()),
   },
-  { description: 'Restaurant model', $id: 'NewRestaurantDTO' }
+  { description: 'New Restaurant model', $id: 'NewRestaurantDTO' }
 );
 
 export const UpdateRestaurantDTO = Type.Partial(NewRestaurantDTO, {
-  description: 'Partial restaurant model',
+  description: 'Partial restaurant model for updating purposes',
   $id: 'UpdateRestaurantDTO',
 });
 
