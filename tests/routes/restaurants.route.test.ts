@@ -6,14 +6,15 @@ import { User } from '../../src/entities/User';
 import { NewRestaurantDTO, RestaurantDTO } from '../../src/dto/restaurant.dto';
 import { ReviewResponseDTO, NewReviewDTO, UpdateReviewDTO } from '../../src/dto/review.dto';
 import { deleteReview, saveReview } from '../../src/services/database/review-queries.service';
-  
+import { deleteRestaurant } from '../../src/services/database/restaurant-queries.service';
+
 
 describe('Route /restaurants', () => {
 
   const RESTO_BASEURL = '/restaurants';
 
   const RESTO_1_DTO: NewRestaurantDTO = {
-    name: 'Reso 2 test',
+    name: 'Resto 2 test',
     address: '40 rue de la fausse rue',
   };
 
@@ -24,7 +25,7 @@ describe('Route /restaurants', () => {
   });
 
   const RESTO_2_DTO: NewRestaurantDTO = {
-    name: 'Reso 2 test - le retour',
+    name: 'Resto 2 test - le retour',
     address: '40 rue de la fausse rue',
     description: 'Le vrai resto des vrais testeurs',
   };
@@ -79,7 +80,7 @@ describe('Route /restaurants', () => {
 
 
   // # POST /restaurants
-  describe('# # POST /restaurants', () => {
+  describe('# POST /restaurants', () => {
     it('should fail when not authenticated', async () => {
       const res = await fastify.inject({
         method: 'POST',
@@ -105,22 +106,23 @@ describe('Route /restaurants', () => {
 
       // Expecting a HTTP 201 response (Created)
       expect(res.statusCode).toEqual(201);
+
+      // Remove test data from DB
+      // await deleteRestaurant(RESTO_1.restaurantId);
     });
 
-    it('TODO: should fail when the restaurant already exists', async () => {
-      // TODO: fix address unicity constraint in Restaurant entity
-
-      // const res = await fastify.inject({
-      //   method: 'POST',
-      //   url: buildURLObjectForTest(RESTO_BASEURL),
-      //   payload: RESTO_1_DTO,
-      //   headers: {
-      //     'Authorization': `Bearer ${BEARER_TOKEN_USER_2}`,
-      //   },
-      // });
+    it('should fail when the restaurant already exists', async () => {
+      const res = await fastify.inject({
+        method: 'POST',
+        url: buildURLObjectForTest(RESTO_BASEURL),
+        payload: RESTO_1_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_2}`,
+        },
+      });
 
       // Expecting a HTTP 400 response (Bad request)
-      // expect(res.statusCode).toEqual(400);
+      expect(res.statusCode).toEqual(400);
     });
 
     it('should fail when the user already owns a restaurant', async () => {
@@ -213,7 +215,7 @@ describe('Route /restaurants', () => {
 
     it('should fail with an invalid restaurant id', async () => {
       const invalidId = -1;
-      
+
       const res = await fastify.inject({
         method: 'PUT',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${invalidId}`),
@@ -272,7 +274,7 @@ describe('Route /restaurants', () => {
 
     it('should fail with an invalid restaurant id', async () => {
       const invalidId = -1;
-      
+
       const res = await fastify.inject({
         method: 'PATCH',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${invalidId}`),
@@ -329,7 +331,7 @@ describe('Route /restaurants', () => {
 
     it('should fail with an invalid restaurant id', async () => {
       const invalidId = -1;
-      
+
       const res = await fastify.inject({
         method: 'DELETE',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${invalidId}`),
@@ -361,7 +363,7 @@ describe('Route /restaurants', () => {
   describe('# GET /restaurants/:id/reviews', () => {
     it('should request the `/restaurants/:id/reviews` route', async () => {
       const restaurantId = 1;
-      
+
       const res = await fastify.inject({
         method: 'GET',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
@@ -373,7 +375,7 @@ describe('Route /restaurants', () => {
 
     it('should return a list of reviews', async () => {
       const restaurantId = 1;
-      
+
       const res = await fastify.inject({
         method: 'GET',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
@@ -415,7 +417,7 @@ describe('Route /restaurants', () => {
 
     it('should fail when not authenticated', async () => {
       const restaurantId = 1;
-      
+
       const res = await fastify.inject({
         method: 'POST',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
@@ -428,7 +430,7 @@ describe('Route /restaurants', () => {
 
     it('should add a review when authenticated', async () => {
       const restaurantId = 1;
-      
+
       const res = await fastify.inject({
         method: 'POST',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews`),
@@ -454,7 +456,7 @@ describe('Route /restaurants', () => {
     it('should request the `/restaurants/:id/reviews/:reviewId` route', async () => {
       const restaurantId = 1;
       const reviewId = 1;
-      
+
       const res = await fastify.inject({
         method: 'GET',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
@@ -467,7 +469,7 @@ describe('Route /restaurants', () => {
     it('should return the review with id :reviewId', async () => {
       const restaurantId = 1;
       const reviewId = 1;
-      
+
       const res = await fastify.inject({
         method: 'GET',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
@@ -507,7 +509,7 @@ describe('Route /restaurants', () => {
       grade: 3,
       restaurantId: restaurantId,
     };
-    
+
     it('should fail when not authenticated', async () => {
       const res = await fastify.inject({
         method: 'PUT',
@@ -533,7 +535,21 @@ describe('Route /restaurants', () => {
       expect(res.statusCode).toEqual(403);
     });
 
-    // TODO: should fail with an invalid review id
+    it('should fail with an invalid review id', async () => {
+      const invalidId = -1;
+
+      const res = await fastify.inject({
+        method: 'PUT',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${invalidId}`),
+        payload: REVIEW_UPDATE_DTO,
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
+
+      // Expecting a HTTP 404 response (Not found)
+      expect(res.statusCode).toEqual(404);
+    });
 
     it('should correctly update the review with id :reviewId', async () => {
       const res = await fastify.inject({
@@ -547,6 +563,20 @@ describe('Route /restaurants', () => {
 
       // Expecting a HTTP 200 response (OK)
       expect(res.statusCode).toEqual(200);
+
+      // Set review back to original state
+      await fastify.inject({
+        method: 'PUT',
+        url: buildURLObjectForTest(`${RESTO_BASEURL}/${restaurantId}/reviews/${reviewId}`),
+        payload: {
+          content: 'Just amazing',
+          grade: 5,
+          restaurantId: restaurantId,
+        },
+        headers: {
+          'Authorization': `Bearer ${BEARER_TOKEN_USER_1}`,
+        },
+      });
     });
   });
 
@@ -559,7 +589,7 @@ describe('Route /restaurants', () => {
       grade: 2,
       restaurantId: 1,
     });
-    
+
     it('should fail when not authenticated', async () => {
       // Adding a test review to the DB
       TEST_REVIEW.reviewId = await saveReview(TEST_REVIEW);
@@ -598,7 +628,7 @@ describe('Route /restaurants', () => {
     it('should correctly delete the review with id :reviewId', async () => {
       // Adding a test review to the DB
       TEST_REVIEW.reviewId = await saveReview(TEST_REVIEW);
-      
+
       const res = await fastify.inject({
         method: 'DELETE',
         url: buildURLObjectForTest(`${RESTO_BASEURL}/${TEST_REVIEW.restaurant.restaurantId}/reviews/${TEST_REVIEW.reviewId}`),
