@@ -38,7 +38,7 @@ export class Restaurant {
   @Column({ nullable: true })
   description: string;
 
-  @Column()
+  @Column({ unique: true })
   address: string;
 
   @Column({ nullable: true })
