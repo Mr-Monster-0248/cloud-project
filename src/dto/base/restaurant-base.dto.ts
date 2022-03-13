@@ -1,8 +1,6 @@
 import { Type, Static } from '@sinclair/typebox'; // package advised by Fastify
 import { Nullable } from '../../utils/nullable';
 
-// TODO: change descriptions
-
 export const RestaurantBaseDTO = Type.Object(
   {
     restaurantId: Type.Integer(),
@@ -11,7 +9,10 @@ export const RestaurantBaseDTO = Type.Object(
     address: Type.String(),
     imgUrl: Nullable(Type.String()),
   },
-  { description: 'Base for the restaurant model with core elements', $id: 'RestaurantBaseDTO' }
+  {
+    description: 'Base for the restaurant model with core elements',
+    $id: 'RestaurantBaseDTO',
+  }
 );
 
 export type RestaurantBaseDTO = Static<typeof RestaurantBaseDTO>;

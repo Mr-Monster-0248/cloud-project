@@ -1,7 +1,5 @@
 import { Type, Static } from '@sinclair/typebox';
 
-
-
 export const AuthDto = Type.Object(
   {
     username: Type.String(),

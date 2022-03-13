@@ -3,8 +3,6 @@ import { Nullable } from '../utils/nullable';
 import { RestaurantBaseDTO } from './base/restaurant-base.dto';
 import { UserBaseDTO } from './base/user-base.dto';
 
-// TODO: change descriptions
-
 export const ReviewDTO = Type.Object(
   {
     reviewId: Type.Integer(),
@@ -56,4 +54,6 @@ export type ReviewResponseDTO = Static<typeof ReviewResponseDTO>;
 export type NewReviewDTO = Static<typeof NewReviewDTO>;
 export type UpdateReviewDTO = Static<typeof UpdateReviewDTO>;
 export type ReviewIdParam = Static<typeof ReviewIdParam>;
-export type ReviewFromUserOrRestaurantParam = Static<typeof ReviewFromUserOrRestaurantParam>
+export type ReviewFromUserOrRestaurantParam = Static<
+  typeof ReviewFromUserOrRestaurantParam
+>;

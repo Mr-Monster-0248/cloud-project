@@ -64,39 +64,22 @@
 | POST   | `/`         | Sends back API key                       |        None         |  ✔   |      ✔       |
 | POST   | `/register` | Registers a new User, sends back API key |        None         |  ✔   |      ✔       |
 
-## 📄 Rapport
-
-- Document endpoints
-
-  - [ ] Re-explain [endpoints](#endpoints)
-
-- Document technologies used in project
-  - [ ] Fastify
-  - [ ] TypeORM
-  - [ ] Swagger
-  - [ ] Postgres
-  - [ ] Docker/Docker Compose
-
 ## Unit testing
 
 - [x] all routes (mock services ? + inject http)
 - [x] all services (mock database queries ?)
 - [x] authentication (mock database queries ?)
-- [ ] utility functions
 
 ## Response code handling
 
 ### Success responses
 
-- [ ] 200 OK
-- [ ] 201 Created
+- [x] 200 OK
+- [x] 201 Created
 
 ### Error handling
 
-- [ ] 400 bad request
-- [ ] 401 unauthorised -> not auth
-- [ ] 403 forbidden -> auth but no access
-- [ ] 404 not found
-
-- [ ] 500 internal server error
-- [ ] 501 not implemented
+- [x] 400 bad request
+- [x] 401 unauthorised -> not auth
+- [x] 403 forbidden -> auth but no access
+- [x] 404 not found
