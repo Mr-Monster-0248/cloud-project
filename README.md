@@ -13,7 +13,7 @@ You will need to have [kubectl](https://kubernetes.io/docs/tasks/tools/) install
 To apply the Kubernetes configuration, if you are using **kubectl**, run:
 
 ```shell
-kubectl apply -f redis-service.yml,ps-database-service.yml,backend-tcp-service.yml,db-data-persistentvolumeclaim.yml,redis-deployment.yml,ps-database-deployment.yml,backend-deployment.yml
+kubectl apply -f ./kubernetes
 ```
 
 **OR**
@@ -21,7 +21,7 @@ kubectl apply -f redis-service.yml,ps-database-service.yml,backend-tcp-service.y
 If you are using **minikube**, run:
 
 ```shell
-minikube kubectl -- apply -f redis-service.yaml,ps-database-service.yaml,backend-tcp-service.yaml,db-data-persistentvolumeclaim.yaml,redis-deployment.yaml,ps-database-deployment.yaml,backend-deployment.yaml
+minikube kubectl -- apply -f ./kubernetes
 ```
 
 #### 2. Access the application
@@ -39,3 +39,5 @@ If you're using **minikube**, run:
 ```shell
 minikube service backend
 ```
+
+The service should be running.

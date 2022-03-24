@@ -51,7 +51,7 @@ spec:
               value: "7000"
             - name: REDIS_HOST
               value: redis
-          image: backend
+          image: mrmonster0248/node_app:v1
           name: backend
           ports:
             - containerPort: 7000
