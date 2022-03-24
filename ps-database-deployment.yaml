@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: E:\DEV\Efrei\M2\Cloud\cloud-project\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ps-database
+  name: ps-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ps-database
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: E:\DEV\Efrei\M2\Cloud\cloud-project\kompose.exe convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ps-database
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: node_app_db
+            - name: POSTGRES_PASSWORD
+              value: db_password
+            - name: POSTGRES_USER
+              value: db_user
+          image: postgres
+          name: ps-database
+          ports:
+            - containerPort: 5432
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/posgresql/data
+              name: db-data
+      restartPolicy: Always
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: db-data
+status: {}

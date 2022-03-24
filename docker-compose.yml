@@ -44,6 +44,8 @@ services:
       - |
         npm run migration:run
         npm run start
+    labels:
+      kompose.service.type: LoadBalancer
 
 volumes:
   db-data:
