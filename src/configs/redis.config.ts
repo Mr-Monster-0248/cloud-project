@@ -5,8 +5,9 @@ import fastifySession from '@fastify/session';
 
 const redisConfig: RedisOptions = {
   port: (process.env.REDIS_PORT as number | undefined) ?? 6379,
-  host: process.env.REDIS_HOST ?? '127.0.0.1',
-  password: process.env.REDIS_HOST ?? 'redis_pass',
+  host: process.env.REDIS_HOST ?? 'redis',
+  // password: process.env.REDIS_PASSWORD ?? 'redis_pass',
+  // username: process.env.REDIS_USERNAME,
 };
 
 export const redis = new Redis(redisConfig);

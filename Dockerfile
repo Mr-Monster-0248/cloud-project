@@ -7,10 +7,11 @@ COPY tsconfig.json ./
 
 COPY src /app/src
 COPY migrations /app/migrations
-COPY .env ./
+COPY ormconfig.js ./
 
 RUN npm install
 RUN npm run build
 
 EXPOSE 7000
-CMD ["node", "./dist/src/index.js"]
+
+# CMD ["node", "./dist/src/index.js"]
