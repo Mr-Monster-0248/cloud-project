@@ -32,7 +32,7 @@ const start = async () => {
     const connection = await createConnection(connectionOptions);
     fastify.log.info('Database connected: ' + connection.name);
 
-    await fastify.listen(process.env.PORT || 7000);
+    await fastify.listen(process.env.PORT || 7000, '0.0.0.0');
     fastify.log.info('Server started successfully');
   } catch (err) {
     fastify.log.error(err);

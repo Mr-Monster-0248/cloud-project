@@ -19,7 +19,7 @@ services:
     command: redis-server --save 60 1 --loglevel warning
 
   backend:
-    build: .
+    image: mrmonster0248/node_app:v2
     environment:
       PORT: 7000
       NODE_ENV: production
