@@ -3,17 +3,22 @@ kind: Service
 metadata:
   annotations:
     kompose.cmd: E:\DEV\Efrei\M2\Cloud\cloud-project\kompose.exe convert
+    kompose.service.type: LoadBalancer
     kompose.version: 1.26.0 (40646f47)
   creationTimestamp: null
   labels:
-    io.kompose.service: ps-database
-  name: ps-database
+    io.kompose.service: nginx-tcp
+  name: nginx-tcp
 spec:
   ports:
-    - name: "5432"
-      port: 5432
-      targetPort: 5432
+    - name: "8080"
+      port: 8080
+      targetPort: 80
+    - name: "443"
+      port: 443
+      targetPort: 443
   selector:
-    io.kompose.service: ps-database
+    io.kompose.service: nginx
+  type: LoadBalancer
 status:
   loadBalancer: {}

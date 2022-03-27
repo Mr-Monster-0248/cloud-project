@@ -21,6 +21,7 @@ spec:
         kompose.version: 1.26.0 (40646f47)
       creationTimestamp: null
       labels:
+        io.kompose.network/redis-network: "true"
         io.kompose.service: redis
     spec:
       containers:
@@ -33,8 +34,6 @@ spec:
             - warning
           image: redis:6.2-alpine
           name: redis
-          ports:
-            - containerPort: 6379
           resources: {}
       restartPolicy: Always
 status: {}
