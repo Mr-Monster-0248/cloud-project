@@ -18,14 +18,10 @@ const logpath = checkLogPath();
 const serverOptions: FastifyServerOptions = {
   logger: {
     level: 'info',
-    file: logpath,
-    prettyPrint:
-      environment === 'development'
-        ? {
-            translateTime: 'HH:MM:ss Z',
-            ignore: 'pid,hostname',
-          }
-        : false,
+    prettyPrint: {
+      translateTime: 'HH:MM:ss Z',
+      ignore: 'pid,hostname',
+    },
   },
 };
 
