@@ -7,18 +7,15 @@ metadata:
     kompose.version: 1.26.0 (40646f47)
   creationTimestamp: null
   labels:
-    io.kompose.service: nginx-tcp
-  name: nginx-tcp
+    io.kompose.service: backend-tcp
+  name: backend-tcp
 spec:
   ports:
-    - name: "8080"
-      port: 8080
-      targetPort: 80
-    - name: "443"
-      port: 443
-      targetPort: 443
+    - name: "7000"
+      port: 7000
+      targetPort: 7000
   selector:
-    io.kompose.service: nginx
+    io.kompose.service: backend
   type: LoadBalancer
 status:
   loadBalancer: {}

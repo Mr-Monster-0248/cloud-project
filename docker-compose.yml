@@ -35,32 +35,21 @@ services:
     depends_on:
       - redis
       - ps-database
+    ports:
+      - 7000:7000
     networks:
       - db-network
       - redis-network
-      - app-network
     command:
       - /bin/bash
       - -c
       - |
         npm run migration:run
         npm run start
-
-  nginx:
-    image: nginx:latest
-    networks:
-      - app-network
-    ports:
-      - 8080:80
-      - 443:443
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./ssl:/ssl/
     labels:
       kompose.service.type: LoadBalancer
 
 networks:
-  app-network:
   db-network:
   redis-network:
 

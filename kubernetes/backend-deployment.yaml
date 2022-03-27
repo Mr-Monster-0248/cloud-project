@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     kompose.cmd: E:\DEV\Efrei\M2\Cloud\cloud-project\kompose.exe convert
+    kompose.service.type: LoadBalancer
     kompose.version: 1.26.0 (40646f47)
   creationTimestamp: null
   labels:
@@ -18,10 +19,10 @@ spec:
     metadata:
       annotations:
         kompose.cmd: E:\DEV\Efrei\M2\Cloud\cloud-project\kompose.exe convert
+        kompose.service.type: LoadBalancer
         kompose.version: 1.26.0 (40646f47)
       creationTimestamp: null
       labels:
-        io.kompose.network/app-network: "true"
         io.kompose.network/db-network: "true"
         io.kompose.network/redis-network: "true"
         io.kompose.service: backend
@@ -54,6 +55,8 @@ spec:
               value: redis
           image: mrmonster0248/node_app:v2
           name: backend
+          ports:
+            - containerPort: 7000
           resources: {}
       restartPolicy: Always
 status: {}
